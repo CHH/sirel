@@ -65,4 +65,40 @@ class CriteriaBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf("\\Sirel\\Criterion\\Any", $this->builder[0]);
         $this->assertEquals(2, count($this->builder[0]));
     }
+
+    function testGt()
+    {
+        $this->builder->gt("foo", 10);
+        $this->assertInstanceOf("\\Sirel\\Criterion\\GreaterThan", $this->builder[0]);
+    }
+
+    function testGte()
+    {
+        $this->builder->gte("foo", 10);
+        $this->assertInstanceOf("\\Sirel\\Criterion\\GreaterThanEquals", $this->builder[0]);
+    }
+
+    function testLt()
+    {
+        $this->builder->lt("foo", 10);
+        $this->assertInstanceOf("\\Sirel\\Criterion\\LessThan", $this->builder[0]);
+    }
+
+    function testLte()
+    {
+        $this->builder->lte("foo", 10);
+        $this->assertInstanceOf("\\Sirel\\Criterion\\LessThanEquals", $this->builder[0]);
+    }
+
+    function testIn()
+    {
+        $this->builder->in("foo", array("bar", "baz"));
+        $this->assertEquals(array("bar", "baz"), $this->builder[0]->value);
+    }
+
+    function testTake()
+    {
+        $this->builder->take(5);
+        $this->assertEquals(5, $this->builder[0]->value);
+    }
 }

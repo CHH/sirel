@@ -5,15 +5,18 @@ namespace Sirel;
 use Closure,
     ArrayObject,
     InvalidArgumentException,
+    Sirel\Criterion\Any,
+    Sirel\Criterion\All,
     Sirel\Criterion\Equals,
     Sirel\Criterion\GreaterThan,
     Sirel\Criterion\GreaterThanEquals,
+    Sirel\Criterion\InValues,
     Sirel\Criterion\LessThan,
     Sirel\Criterion\LessThanEquals,
-    Sirel\Criterion\InValues,
-    Sirel\Criterion\MaxResults,
-    Sirel\Criterion\All,
-    Sirel\Criterion\Any;
+    Sirel\Criterion\Like,
+    Sirel\Criterion\Order
+    Sirel\Criterion\Skip,
+    Sirel\Criterion\Take;
 
 class CriteriaBuilder extends ArrayObject implements Criteria
 {
@@ -44,17 +47,10 @@ class CriteriaBuilder extends ArrayObject implements Criteria
     }
 
     /**
-     * Returns the Criteria as List
-     */
-    function getAll()
-    {
-        return $this->getArrayCopy();
-    }
-
-    /**
      * Returns a Criteria Builder, which chains Criteria with AND
      *
-     * @param  Closure $closure A Closure which can be used to setup the Criteria Builder Instance
+     * @param  Closure $closure A Closure which can be used to setup 
+     *                          the Criteria Builder Instance
      * @return All
      */
     function all(Closure $closure = null)
@@ -67,7 +63,8 @@ class CriteriaBuilder extends ArrayObject implements Criteria
     /**
      * Returns a Criteria Builder, which chains Criteria with OR
      *
-     * @param  Closure $closure A Closure which can be used to setup the Criteria Builder Instance
+     * @param  Closure $closure A Closure which can be used to setup 
+     *                          the Criteria Builder Instance
      * @return Any
      */
     function any(Closure $closure = null)
@@ -77,38 +74,101 @@ class CriteriaBuilder extends ArrayObject implements Criteria
         return $criterion;
     }
 
+    /**
+     * Field should be equal to the value
+     *
+     * @param  string $field
+     * @param  mixed  $value
+     * @return CriteriaBuilder
+     */
     function eq($field, $value)
     {
         return $this->add(new Equals($field, $value));
     }
 
+    /**
+     * Field value should be greater than the value
+     *
+     * @param  string $field
+     * @param  mixed  $value
+     * @return CriteriaBuilder
+     */
     function gt($field, $value)
     {
         return $this->add(new GreaterThan($field, $value));
     }
 
+    /**
+     * Field value should be greater than or equal to the value
+     *
+     * @param  string $field
+     * @param  mixed  $value
+     * @return CriteriaBuilder
+     */
     function gte($field, $value)
     {
         return $this->add(new GreaterThanEquals($field, $value));
     }
 
+    /**
+     * Field value should be less than the value
+     *
+     * @param  string $field
+     * @param  mixed  $value
+     * @return CriteriaBuilder
+     */
     function lt($field, $value)
     {
         return $this->add(new LessThan($field, $value));
     }
 
+    /**
+     * Field value should be less than or equal to the value
+     *
+     * @param  string $field
+     * @param  mixed  $value
+     * @return CriteriaBuilder
+     */
     function lte($field, $value)
     {
         return $this->add(new LessThanEquals($field, $value));
     }
 
+    /**
+     * Field should be one of the values
+     *
+     * @param  string $field
+     * @param  array $values 
+     * @return CriteriaBuilder
+     */
     function in($field, array $values)
     {
         return $this->add(new InValues($field, $values));
     }
 
-    function maxResults($number)
+    function like($field, $pattern)
     {
-        return $this->add(new MaxResults($field, $value));
+        return $this->add(new Like($field, $pattern));
+    }
+
+    /**
+     * At most {n} rows should be returned
+     *
+     * @param  int $number
+     * @return CriteriaBuilder
+     */
+    function take($numRows)
+    {
+        return $this->add(new Take($numRows));
+    }
+
+    function skip($numRows)
+    {
+        return $this->add(new Skip($numRows));
+    }
+
+    function order($field, $direction)
+    {
+        return $this->add(new Order($field, $direction));
     }
 }
