@@ -9,7 +9,17 @@ namespace Sirel;
 interface InsertQuery extends Query
 {
     /**
-     * Should return the values to insert
+     * Returns Key-Value-Pairs which get inserted into the Data Store
+     *
+     * For Example:
+     * <code>
+     * array(
+     *   "username" => "johndoe",
+     *   "email" => "john.doe@example.com",
+     *   "password" => "mysupersecretpassword",
+     * )
+     * </code>
+     *
      * @return array
      */
     function getValues();
