@@ -3,8 +3,7 @@
 namespace Sirel;
 
 /**
- * Tells the DataStore to create a new entry with the
- * given data
+ * Tells the DataStore to create a new entry with the given data
  */
 interface InsertQuery extends Query
 {
