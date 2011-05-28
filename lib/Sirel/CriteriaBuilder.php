@@ -104,7 +104,7 @@ class CriteriaBuilder extends ArrayObject implements Criteria
 
     function in($field, array $values)
     {
-        return $this->add(new InValues($field, $value));
+        return $this->add(new InValues($field, $values));
     }
 
     function maxResults($number)
