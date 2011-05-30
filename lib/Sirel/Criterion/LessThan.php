@@ -2,8 +2,6 @@
 
 namespace Sirel\Criterion;
 
-use Sirel\AbstractCriterion;
-
-class LessThan extends AbstractCriterion
+class LessThan extends AttributeConstraint
 {
 }

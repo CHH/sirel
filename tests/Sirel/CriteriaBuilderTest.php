@@ -93,12 +93,12 @@ class CriteriaBuilderTest extends \PHPUnit_Framework_TestCase
     function testIn()
     {
         $this->builder->in("foo", array("bar", "baz"));
-        $this->assertEquals(array("bar", "baz"), $this->builder[0]->value);
+        $this->assertEquals(array("bar", "baz"), $this->builder[0]->getExpected());
     }
 
     function testTake()
     {
         $this->builder->take(5);
-        $this->assertEquals(5, $this->builder[0]->value);
+        $this->assertEquals(5, $this->builder[0]->getNumber());
     }
 }

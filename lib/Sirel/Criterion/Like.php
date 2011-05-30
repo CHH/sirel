@@ -2,8 +2,6 @@
 
 namespace Sirel\Criterion;
 
-use Sirel\AbstractCriterion;
-
-class Like extends AbstractCriterion
+class Like extends AttributeConstraint
 {
 }

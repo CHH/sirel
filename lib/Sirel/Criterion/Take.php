@@ -11,15 +11,20 @@ class Take implements Criterion
      * How many results should be returned?
      * @var int
      */
-    public $value;
+    protected $numRows;
 
     /**
      * Constructor
      *
-     * @param int $number
+     * @param int $numRows
      */
     function __construct($numRows)
     {
-        $this->value = $numRows;
+        $this->numRows = $numRows;
+    }
+
+    function getNumber()
+    {
+        return $this->numRows;
     }
 }

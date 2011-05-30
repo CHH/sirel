@@ -9,7 +9,8 @@ interface Query
      * should operate on, e.g. a Name of a Table or a Key Space in a Cache
      *
      * Data Stores may ignore this if they do not support such a
-     * representation of data (e.g. simple Caches like APC).
+     * representation of data (e.g. simple Caches like APC) or fake this
+     * if they want.
      */
     function getRelation();
 }

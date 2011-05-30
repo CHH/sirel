@@ -2,8 +2,6 @@
 
 namespace Sirel\Criterion;
 
-use Sirel\AbstractCriterion;
-
-class InValues extends AbstractCriterion
+class InValues extends AttributeConstraint
 {
 }

@@ -10,15 +10,20 @@ class Skip implements Criterion
     /**
      * @var int
      */
-    public $value;
+    protected $offset;
 
     /**
      * Constructor
      *
      * @param int $number
      */
-    function __construct($numRows)
+    function __construct($offset)
     {
-        $this->value = $numRows;
+        $this->offset = $offset;
+    }
+
+    function getNumber()
+    {
+        return $this->offset;
     }
 }

@@ -12,6 +12,11 @@ namespace Sirel;
 interface SelectQuery extends Query
 {
     /**
+     * Should return a list of projections for this Query
+     */
+    function getProjections();
+
+    /**
      * Returns the Conditions which each result row has to fulfill.
      * @return Criteria
      */

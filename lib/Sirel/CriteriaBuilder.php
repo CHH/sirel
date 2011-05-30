@@ -7,14 +7,14 @@ use Closure,
     InvalidArgumentException,
     Sirel\Criterion\Any,
     Sirel\Criterion\All,
-    Sirel\Criterion\Equals,
+    Sirel\Criterion\Equal,
     Sirel\Criterion\GreaterThan,
-    Sirel\Criterion\GreaterThanEquals,
+    Sirel\Criterion\GreaterThanEqual,
     Sirel\Criterion\InValues,
     Sirel\Criterion\LessThan,
-    Sirel\Criterion\LessThanEquals,
+    Sirel\Criterion\LessThanEqual,
     Sirel\Criterion\Like,
-    Sirel\Criterion\Order
+    Sirel\Criterion\Order,
     Sirel\Criterion\Skip,
     Sirel\Criterion\Take;
 
@@ -83,7 +83,7 @@ class CriteriaBuilder extends ArrayObject implements Criteria
      */
     function eq($field, $value)
     {
-        return $this->add(new Equals($field, $value));
+        return $this->add(new Equal($field, $value));
     }
 
     /**
@@ -107,7 +107,7 @@ class CriteriaBuilder extends ArrayObject implements Criteria
      */
     function gte($field, $value)
     {
-        return $this->add(new GreaterThanEquals($field, $value));
+        return $this->add(new GreaterThanEqual($field, $value));
     }
 
     /**
@@ -131,7 +131,7 @@ class CriteriaBuilder extends ArrayObject implements Criteria
      */
     function lte($field, $value)
     {
-        return $this->add(new LessThanEquals($field, $value));
+        return $this->add(new LessThanEqual($field, $value));
     }
 
     /**
@@ -162,13 +162,25 @@ class CriteriaBuilder extends ArrayObject implements Criteria
         return $this->add(new Take($numRows));
     }
 
+    /**
+     * Skip {n} rows
+     *
+     * @param int $numRows
+     * @return CriteriaBuilder
+     */
     function skip($numRows)
     {
         return $this->add(new Skip($numRows));
     }
 
-    function order($field, $direction)
+    /**
+     * Order all result rows by the given attribute and direction
+     *
+     * @param string $attribute
+     * @param string $direction
+     */
+    function order($attribute, $direction = Order::ASC)
     {
-        return $this->add(new Order($field, $direction));
+        return $this->add(new Order($attribute, $direction));
     }
 }
