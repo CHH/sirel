@@ -2,6 +2,6 @@
 
 namespace Sirel\Criterion;
 
-class Equals extends AttributeConstraint
+class Equals extends Binary
 {
 }

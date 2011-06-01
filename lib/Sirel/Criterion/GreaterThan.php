@@ -2,6 +2,6 @@
 
 namespace Sirel\Criterion;
 
-class GreaterThan extends AttributeConstraint
+class GreaterThan extends Binary
 {
 }
