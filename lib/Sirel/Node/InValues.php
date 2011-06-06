@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirel\Criterion;
+namespace Sirel\Node;
 
 class InValues extends Binary
 {

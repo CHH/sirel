@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirel\Criterion;
+namespace Sirel\Node;
 
 class LessThan extends Binary
 {

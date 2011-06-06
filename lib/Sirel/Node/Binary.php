@@ -1,11 +1,11 @@
 <?php
 
-namespace Sirel\Criterion;
+namespace Sirel\Node;
 
 /**
  * Base class for criterions which compare the attribute to a given value
  */
-abstract class Binary implements \Sirel\Criterion
+abstract class Binary extends AbstractNode
 {
     /**
      * @var string
@@ -21,6 +21,12 @@ abstract class Binary implements \Sirel\Criterion
     {
         $this->left  = $left;
         $this->right = $right;
+    }
+
+    function __clone()
+    {
+        $this->left = clone $this->left;
+        $this->right = clone $this->right;
     }
 
     function getLeft()
