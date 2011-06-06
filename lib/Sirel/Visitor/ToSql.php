@@ -127,7 +127,7 @@ class ToSql extends AbstractVisitor
     {
         return $this->visit($notIn->getLeft())
             . " NOT IN ("
-            . $this->visit($in->getRight())
+            . $this->visit($notIn->getRight())
             . ')';
     }
 
