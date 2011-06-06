@@ -2,17 +2,20 @@
 
 namespace Sirel;
 
-use Sirel\Equal,
-    Sirel\NotEqual,
-    Sirel\GreaterThan,
-    Sirel\GreaterThanEqual,
-    Sirel\LessThan,
-    Sirel\LessThanEqual,
-    Sirel\Like,
-    Sirel\NotLike,
-    Sirel\InValues,
-    Sirel\NotInValues,
-    Sirel\Not;
+use Sirel\Node\Equal,
+    Sirel\Node\NotEqual,
+    Sirel\Node\GreaterThan,
+    Sirel\Node\GreaterThanEqual,
+    Sirel\Node\LessThan,
+    Sirel\Node\LessThanEqual,
+    Sirel\Node\Like,
+    Sirel\Node\NotLike,
+    Sirel\Node\InValues,
+    Sirel\Node\NotInValues,
+    Sirel\Node\Not,
+    Sirel\Node\Order,
+    Sirel\Node\WithAnd,
+    Sirel\Node\WithOr;
 
 class Attribute
 {
@@ -22,7 +25,7 @@ class Attribute
     protected $name;
     protected $relation;
 
-    function __constuct($name, $relation)
+    function __construct($name, $relation)
     {
         $this->name = $name;
         $this->relation = $relation;
@@ -33,9 +36,14 @@ class Attribute
         return $this->name;
     }
 
+    function getRelation()
+    {
+        return $this->relation;
+    }
+
     function __toString()
     {
-        return $this->name;
+        return $this->relation . '.' . $this->name;
     }
 
     function eq($right)
@@ -96,5 +104,15 @@ class Attribute
     function desc()
     {
         return new Order($this, Order::DESC);
+    }
+    
+    function also(\Sirel\Node\Node $otherNode)
+    {
+        return new WithAnd(array($this, $otherNode));
+    }
+
+    function withOr(\Sirel\Node\Node $otherNode)
+    {
+        return new WithOr(array($this, $otherNode));
     }
 }
