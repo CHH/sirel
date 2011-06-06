@@ -8,11 +8,37 @@ use Sirel\Node,
 
 class ToSql extends AbstractVisitor
 {
+    /**
+     * Utility Method for visiting each item in an list
+     *
+     * @param  array $list
+     * @return array Array with the result of each visit
+     */
     protected function visitEach($list)
     {
         return array_map(array($this, "visit"), (array) $list);
     }
 
+    /**
+     * Utility method for visiting Boolean operators (Equal, GreaterThan,...)
+     *
+     * @param  Node\Binary $node A binary node
+     * @param  string $operator SQL boolean operator
+     * @return string
+     */
+    protected function visitBooleanOperator(Node\Binary $node, $operator)
+    {
+        return $this->visit($node->getLeft()) 
+            . $operator
+            . $this->visit($node->getRight());
+    }
+
+    /**
+     * Get a SELECT Query
+     *
+     * @param  Node\SelectStatement $select
+     * @return string
+     */
     protected function visitSirelNodeSelectStatement(Node\SelectStatement $select)
     {
         return join(" ", array_filter(array(
@@ -45,6 +71,12 @@ class ToSql extends AbstractVisitor
         )));
     }
 
+    /**
+     * Get a LIMIT Clause
+     *
+     * @param  Node\limit $limit
+     * @return string 
+     */
     protected function visitSirelNodeLimit(Node\Limit $limit)
     {
         return "LIMIT " . $this->visit($limit->getExpression());
@@ -81,13 +113,6 @@ class ToSql extends AbstractVisitor
         } else {
             return $left . '=' . $this->visit($right);
         }
-    }
-
-    protected function visitBooleanOperator(Node\Binary $node, $operator)
-    {
-        return $this->visit($node->getLeft()) 
-            . $operator
-            . $this->visit($node->getRight());
     }
 
     protected function visitSirelNodeNotEqual(Node\NotEqual $notEqual)
@@ -180,5 +205,10 @@ class ToSql extends AbstractVisitor
     protected function visitArrayObject(\ArrayObject $node)
     {
         return join(', ', (array) $node);
+    }
+
+    protected function visitDateTime(\DateTime $dateTime)
+    {
+        return $dateTime->format(\DateTime::ISO8601);
     }
 }
