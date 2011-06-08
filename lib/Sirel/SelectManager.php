@@ -55,9 +55,16 @@ class SelectManager implements \IteratorAggregate, \Countable
     /**
      * Add a node to the criteria
      */
-    function where(Node $expr = null)
+    function where(Node $expr)
     {
-        $this->nodes->criteria[] = $expr;
+        foreach (func_get_args() as $expr) {
+            if (!$expr instanceof Node) {
+                throw new \InvalidArgumentException(
+                    "Not an instance of Node given as Restriction"
+                );
+            }
+            $this->nodes->criteria[] = $expr;
+        }
         return $this;
     }
 

@@ -13,8 +13,15 @@ class DslTest extends \PHPUnit_Framework_TestCase
             ->where($users['username']->eq('johnny'))
             ->where($users['password']->eq('superSecretPass'));
 
-        $sqlString = "SELECT * FROM users WHERE users.username='johnny'"
-            . " AND users.password='superSecretPass'";
+        $sqlString = "SELECT * FROM users WHERE users.username = 'johnny'"
+            . " AND users.password = 'superSecretPass'";
+
+        $this->assertEquals($sqlString, $query->toSql());
+
+        $query = $users->where(
+            $users['username']->eq('johnny'),
+            $users['password']->eq('superSecretPass')
+        );
 
         $this->assertEquals($sqlString, $query->toSql());
     }

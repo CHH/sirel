@@ -29,7 +29,7 @@ class ToSql extends AbstractVisitor
     protected function visitBooleanOperator(Node\Binary $node, $operator)
     {
         return $this->visit($node->getLeft()) 
-            . $operator
+            . " $operator "
             . $this->visit($node->getRight());
     }
 
@@ -111,7 +111,7 @@ class ToSql extends AbstractVisitor
         if ($right === null) {
             return $left . ' IS NULL';
         } else {
-            return $left . '=' . $this->visit($right);
+            return $left . ' = ' . $this->visit($right);
         }
     }
 
