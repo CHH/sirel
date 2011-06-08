@@ -14,8 +14,9 @@ use Sirel\Node\Equal,
     Sirel\Node\NotInValues,
     Sirel\Node\Not,
     Sirel\Node\Order,
-    Sirel\Node\WithAnd,
-    Sirel\Node\WithOr;
+    Sirel\Node\AndX,
+    Sirel\Node\OrX,
+    Sirel\Node\Grouping;
 
 class Attribute
 {
@@ -104,15 +105,5 @@ class Attribute
     function desc()
     {
         return new Order($this, Order::DESC);
-    }
-    
-    function also(\Sirel\Node\Node $otherNode)
-    {
-        return new WithAnd(array($this, $otherNode));
-    }
-
-    function withOr(\Sirel\Node\Node $otherNode)
-    {
-        return new WithOr(array($this, $otherNode));
     }
 }

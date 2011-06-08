@@ -38,4 +38,14 @@ abstract class Binary extends AbstractNode
     {
         return $this->right;
     }
+
+    function _and(\Sirel\Node\Node $otherNode)
+    {
+        return new AndX(array($this, $otherNode));
+    }
+
+    function _or(\Sirel\Node\Node $otherNode)
+    {
+        return new Grouping(new OrX(array($this, $otherNode)));
+    }
 }

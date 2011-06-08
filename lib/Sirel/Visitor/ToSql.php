@@ -87,12 +87,17 @@ class ToSql extends AbstractVisitor
         return "OFFSET " . $this->visit($offset->getExpression());
     }
 
-    protected function visitSirelNodeWithAnd(Node\WithAnd $and)
+    protected function visitSirelNodeGrouping(Node\Grouping $grouping)
     {
-        return join(" AND ", $this->visitEach($or->getChildren()));
+        return '(' . $this->visit($grouping->getExpression()) . ')';
     }
 
-    protected function visitSirelNodeWithOr(Node\WithOr $or) 
+    protected function visitSirelNodeAndX(Node\AndX $and)
+    {
+        return join(" AND ", $this->visitEach($and->getChildren()));
+    }
+
+    protected function visitSirelNodeOrX(Node\OrX $or) 
     {
         return join(" OR ", $this->visitEach($or->getChildren()));
     }
@@ -100,7 +105,7 @@ class ToSql extends AbstractVisitor
     protected function visitSirelNodeOrder(Node\Order $order)
     {
         return $this->visit($order->getExpression()) . " "
-            . ($order->getDirection() === Node\Order::ASC ? "ASC" : "DESC");
+            . ($order->isAscending() ? "ASC" : "DESC");
     }
 
     protected function visitSirelNodeEqual(Node\Equal $equal)

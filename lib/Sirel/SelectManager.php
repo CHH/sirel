@@ -73,7 +73,7 @@ class SelectManager implements \IteratorAggregate, \Countable
         if (null === $expr) {
             $this->nodes->order = array();
 
-        } else if ($expr instanceof Node\Order) {
+        } else if ($expr instanceof Order) {
             $this->nodes->order[] = $expr;
 
         } else {

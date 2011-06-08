@@ -52,6 +52,11 @@ class Table implements \ArrayAccess
         return $select;
     }
 
+    function order($expr, $direction = \Sirel\Node\Order::ASC)
+    {
+        return $this->from()->order($expr, $direction);
+    }
+
     function take($expr)
     {
         return $this->from()->take($expr);
