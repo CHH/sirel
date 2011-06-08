@@ -2,7 +2,7 @@
 
 namespace Sirel\Node;
 
-class WithOr extends Criteria
+class OrX implements Node
 {
     protected $children = array();
 

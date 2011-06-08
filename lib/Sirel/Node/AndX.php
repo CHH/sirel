@@ -2,7 +2,7 @@
 
 namespace Sirel\Node;
 
-class WithAnd implements Node
+class AndX implements Node
 {
     protected $children = array();
 
