@@ -52,6 +52,14 @@ class SelectManager implements \IteratorAggregate, \Countable
         return $this;
     }
 
+    function project(array $projections)
+    {
+        foreach ($projections as $projection) {
+            $this->nodes->projections[] = $projection;
+        }
+        return $this;
+    }
+
     /**
      * Add a node to the criteria
      */

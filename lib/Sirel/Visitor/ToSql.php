@@ -161,6 +161,15 @@ class ToSql extends AbstractVisitor
             . ')';
     }
 
+    /**
+     * SQL Literal, return the raw expression
+     * @return string
+     */
+    protected function visitSirelNodeSqlLiteral(Node\SqlLiteral $sqlLiteral)
+    {
+        return $sqlLiteral->getExpression();
+    }
+
     protected function visitSirelNodeLike(Node\Like $like)
     {
         return $this->visitBooleanOperator($like, "LIKE");

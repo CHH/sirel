@@ -52,6 +52,15 @@ class DslTest extends \PHPUnit_Framework_TestCase
 
         $sqlString = "SELECT * FROM users ORDER BY users.username ASC";
         $this->assertEquals($sqlString, $users->order($users['username']->asc())->toSql());
+        $this->assertEquals($sqlString, $users->order($users['username'])->toSql());
+    }
+
+    function testSimpleProject()
+    {
+        $users = $this->users;
+
+        $sqlString = "SELECT users.id FROM users";
+        $this->assertEquals($sqlString, $users->project($users['id'])->toSql());
     }
 
     function testSimpleSelectLimit()

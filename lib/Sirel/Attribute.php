@@ -22,26 +22,50 @@ class Attribute
 {
     /**
      * Name of the Attribute
+     * @var string
      */
     protected $name;
+
+    /**
+     * Relation, which this attribute belong to
+     * @var Table|string
+     */
     protected $relation;
 
+    /**
+     * Constructor
+     *
+     * @param string $name
+     * @param Table|string $relation
+     */
     function __construct($name, $relation)
     {
         $this->name = $name;
         $this->relation = $relation;
     }
 
+    /**
+     * Attribute Name
+     * @return string
+     */
     function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Relation this attribute belongs to
+     * @return Table|string
+     */
     function getRelation()
     {
         return $this->relation;
     }
 
+    /**
+     * Returns the attributes fully qualified name for debugging
+     * @return string
+     */
     function __toString()
     {
         return $this->relation . '.' . $this->name;
