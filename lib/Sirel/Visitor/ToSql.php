@@ -223,6 +223,6 @@ class ToSql extends AbstractVisitor
 
     protected function visitDateTime(\DateTime $dateTime)
     {
-        return $dateTime->format(\DateTime::ISO8601);
+        return $this->visit($dateTime->format("Y-m-d H:i:s"));
     }
 }
