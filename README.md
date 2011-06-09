@@ -38,10 +38,7 @@ operator takes one or more expressions as argument, which get joined
 by an AND.
 
 ```php
-<?php
-use Sirel\Table;
-
-$users = new Table("users");
+...
 echo $users->where($users['username']->eq("johnny"), $users['password']->eq('superSecretPass'));
 // -> SELECT * FROM users WHERE users.username = 'johnny' AND users.password = 'superSecretPass'
 ```
@@ -54,8 +51,7 @@ The Attribute Objects provide `asc()` and `desc()` Methods for convenience, whic
 the right Order Objects.
 
 ```php
-<?php
-$users = new \Sirel\Table("users");
+...
 echo $users->order($users['username']->desc());
 // -> SELECT * FROM users ORDER BY users.username DESC
 ```
@@ -65,8 +61,7 @@ echo $users->order($users['username']->desc());
 Limit and Offset correspond to the `take()` and `skip()` Operators. 
 
 ```php
-<?php
-$users = new \Sirel\Table("users");
+...
 echo $users->take(5);
 // -> SELECT * FROM users LIMIT 5
 
