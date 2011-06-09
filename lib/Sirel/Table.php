@@ -4,6 +4,19 @@ namespace Sirel;
 
 use BadMethodCallException;
 
+/**
+ * Represents the Relation
+ *
+ * TODO: Add real table introspection support (maybe Doctrine\SchemaManager?)
+ *
+ * The table acts mainly as a convenience tool for creating 
+ * Attribute Instances. Attributes can be accessed either as properties
+ * or as Array Indizes.
+ * ```
+ * $users = new Table("users");
+ * var_dump($users['username'] === $users->username);
+ * ```
+ */
 class Table implements \ArrayAccess
 {
     /**
@@ -27,12 +40,22 @@ class Table implements \ArrayAccess
         return $this->name;
     }
 
+    /**
+     * Returns a new Select Manager, and selects from this table
+     * @return SelectManager
+     */
     function from()
     {
         $select = new SelectManager;
         return $select->from($this);
     }
 
+    /**
+     * Returns a new Select Manager and adds the given expressions as projections
+     *
+     * @param  array $projections|mixed $projection,...
+     * @return SelectManager
+     */
     function project($projections)
     {
         $select = $this->from();
@@ -43,6 +66,13 @@ class Table implements \ArrayAccess
         }
     }
 
+    /**
+     * Returns a new Select Manager and add the given expressions 
+     * to its restrictions.
+     *
+     * @param mixed $expr,...
+     * @return SelectManager
+     */
     function where($expr)
     {
         $select = $this->from();
@@ -52,6 +82,9 @@ class Table implements \ArrayAccess
         return $select;
     }
 
+    /**
+     * Creates a new Query and sets and Order Expression
+     */
     function order($expr, $direction = \Sirel\Node\Order::ASC)
     {
         return $this->from()->order($expr, $direction);
@@ -66,18 +99,31 @@ class Table implements \ArrayAccess
     {
         return $this->from()->skip($expr);
     }
-
-    function offsetSet($offset, $value)
+    
+    /**
+     * Allow to access Table Attributes as properties
+     * @return Attribute
+     */
+    function __get($var)
     {
-        throw new BadMethodCallException("offsetSet is not available");
+        return $this->offsetGet($var);
     }
 
+    /**
+     * Allow to access Table Attributes as array offsets on the table object
+     * @return Attribute
+     */
     function offsetGet($offset)
     {
         if (empty($this->attributes[$offset])) {
             $this->attributes[$offset] = new Attribute($offset, $this);
         }
         return $this->attributes[$offset];
+    }
+
+    function offsetSet($offset, $value)
+    {
+        throw new BadMethodCallException("offsetSet is not available");
     }
 
     function offsetExists($offset)

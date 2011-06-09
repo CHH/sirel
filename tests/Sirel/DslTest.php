@@ -55,6 +55,15 @@ class DslTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $users->order($users['username'])->toSql());
     }
 
+    function testSimpleOrderDesc()
+    {
+        $users = $this->users;
+
+        $sqlString = "SELECT * FROM users ORDER BY users.username DESC";
+        $this->assertEquals($sqlString, $users->order($users['username']->desc())->toSql());
+        $this->assertEquals($sqlString, $users->order($users['username'], \Sirel\Node\Order::DESC)->toSql());
+    }
+
     function testSimpleProject()
     {
         $users = $this->users;
