@@ -76,6 +76,36 @@ class ToSql extends AbstractVisitor
         )));
     }
 
+    protected function visitSirelNodeUpdateStatement(Node\UpdateStatement $update)
+    {
+        $that = $this;
+
+        return join(' ', array_filter(array(
+            "UPDATE",
+            $this->visit($update->relation),
+
+            // SET
+            "SET " . join(', ', $this->visitEach($update->values)),
+            
+            // WHERE
+            ($update->restrictions 
+                ? "WHERE " . join(" AND ", $this->visitEach($update->restrictions))
+                : null
+            ),
+
+            // ORDER BY
+            ($update->orders
+                ? "ORDER BY " . join(", ", $this->visitEach($update->orders))
+                : null),
+
+            // LIMIT
+            ($update->limit ? $this->visit($update->limit) : null),
+
+            // OFFSET 
+            ($update->offset ? $this->visit($update->offset) : null)
+        )));
+    }
+
     /**
      * Get a LIMIT Clause
      *
@@ -116,6 +146,12 @@ class ToSql extends AbstractVisitor
     {
         return $this->visit($order->getExpression()) . " "
             . ($order->isAscending() ? "ASC" : "DESC");
+    }
+
+    protected function visitSirelNodeAssignment(Node\Assignment $assign)
+    {
+        return $this->visit($assign->getLeft()) 
+            . " = " . $this->visit($assign->getRight());
     }
 
     protected function visitSirelNodeEqual(Node\Equal $equal)

@@ -51,6 +51,12 @@ class Table implements \ArrayAccess, \IteratorAggregate, \Countable
         return $select->from($this);
     }
 
+    function update()
+    {
+        $updateManager = new UpdateManager;
+        return $updateManager->table($this);
+    }
+
     /**
      * Returns a new Select Manager and adds the given expressions as projections
      *

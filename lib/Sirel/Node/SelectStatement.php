@@ -2,7 +2,7 @@
 
 namespace Sirel\Node;
 
-class SelectStatement
+class SelectStatement extends AbstractNode
 {
     public $projections = array();
 

@@ -97,4 +97,17 @@ class DslTest extends \PHPUnit_Framework_TestCase
         $sqlString = "SELECT * FROM users OFFSET 10";
         $this->assertEquals($sqlString, $query->toSql());
     }
+
+    function testUpdate()
+    {
+        $users = $this->users;
+        $query = $users->update()
+            ->where($users['username']->eq('christoph'))
+            ->set(array('password' => 'foo'));
+
+        $sqlString = "UPDATE users SET password = 'foo'" 
+            . " WHERE users.username = 'christoph'";
+
+        $this->assertEquals($sqlString, $query->toSql());
+    }
 }

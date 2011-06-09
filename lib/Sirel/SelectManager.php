@@ -12,10 +12,10 @@ use Sirel\Node\Node,
     Sirel\Visitor\Visitor,
     Sirel\Visitor\ToSql;
 
-class SelectManager implements \IteratorAggregate, \Countable
+class SelectManager 
+    extends AbstractManager
+    implements \IteratorAggregate, \Countable
 {
-    protected $nodes;
-
     function __construct()
     {
         $this->nodes = new SelectStatement;
@@ -36,11 +36,6 @@ class SelectManager implements \IteratorAggregate, \Countable
      */
     function count()
     {
-    }
-
-    function accept(Visitor $visitor)
-    {
-        return $visitor->visit($this->nodes);
     }
 
     /**
@@ -120,31 +115,5 @@ class SelectManager implements \IteratorAggregate, \Countable
     {
         $this->nodes->offset = $numRows !== null ? new Offset($numRows) : null;
         return $this;
-    }
-
-    /**
-     * Return the SQL if the manager is converted to a string
-     *
-     * @alias  toSql()
-     * @return string
-     */
-    function __toString()
-    {
-        try {
-            return $this->toSql();
-        } catch (\Exception $e) {
-            return "";
-        }
-    }
-
-    /**
-     * Triggers the generation of SQL
-     *
-     * @return string
-     */
-    function toSql()
-    {
-        $visitor = new ToSql;
-        return $this->accept($visitor);
     }
 }
