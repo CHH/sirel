@@ -42,8 +42,8 @@ by an AND.
 use Sirel\Table;
 
 $users = new Table("users");
-echo $users->where($users['username']->eq("johnny"));
-// -> SELECT * FROM users WHERE users.username = 'johnny'
+echo $users->where($users['username']->eq("johnny"), $users['password']->eq('superSecretPass'));
+// -> SELECT * FROM users WHERE users.username = 'johnny' AND users.password = 'superSecretPass'
 ```
 
 ## Ordering
