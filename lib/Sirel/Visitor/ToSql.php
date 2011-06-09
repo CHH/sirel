@@ -78,8 +78,6 @@ class ToSql extends AbstractVisitor
 
     protected function visitSirelNodeUpdateStatement(Node\UpdateStatement $update)
     {
-        $that = $this;
-
         return join(' ', array_filter(array(
             "UPDATE",
             $this->visit($update->relation),
@@ -239,7 +237,10 @@ class ToSql extends AbstractVisitor
 
     protected function visitSirelNodeJoinSource(Node\JoinSource $joinSource)
     {
-        return "FROM " . $this->visit($joinSource->getLeft());
+        $right = $joinSource->getRight();
+
+        return "FROM " . $this->visit($joinSource->getLeft())
+               . ($right ? $this->visit($right) : null);
     }
 
     protected function visitInteger($node)

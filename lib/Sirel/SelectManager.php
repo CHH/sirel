@@ -116,4 +116,29 @@ class SelectManager
         $this->nodes->offset = $numRows !== null ? new Offset($numRows) : null;
         return $this;
     }
+
+    /**
+     * Compiles an Update Query from the restrictions, orders, limits,
+     * and offsets of this Select Query.
+     *
+     * @return UpdateManager
+     */
+    function compileUpdate()
+    {
+        $updateManager = new UpdateManager;
+        $updateManager->table($this->nodes->source->getLeft());
+
+        foreach ($this->nodes->restrictions as $expr) {
+            $updateManager->where($expr);
+        }
+
+        foreach ($this->nodes->order as $order) {
+            $updateManager->order($order);
+        }
+
+        $updateManager->take($this->node->limit->getExpression());
+        $updateManager->skip($this->node->offset->getExpression());
+
+        return $updateManager;
+    }
 }
