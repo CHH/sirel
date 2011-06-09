@@ -12,6 +12,7 @@ Now let's dive into a bird's eye overview of Sirel's API.
 The core of Sirel's Query Building API is the _Table_. The Table Object provides convenient
 access to attributes and Factory Methods for Query Managers (think SQL Statements 
 Select, Insert, Update, Delete). The constructor takes one argument: the Table Name.
+
 ```php
 <?php
 $users = new \Sirel\Table("users");
@@ -19,6 +20,7 @@ $users = new \Sirel\Table("users");
 
 Additionally the Table Object can be accessed as Array, to retrieve an Object 
 representation of an Attribute.
+
 ```php
 <?php
 ...
@@ -35,7 +37,6 @@ Selections are done in Sirel with the `where()` operator. The `where`
 operator takes one or more expressions as argument, which get joined
 by an AND.
 
-
 ```php
 <?php
 use Sirel\Table;
@@ -46,6 +47,7 @@ echo $users->where($users['username']->eq("johnny"));
 ```
 
 ## Ordering
+
 Ordering is done with the `order()` Operator. It receives either an Order Expression
 or an Attribute Name and Ordering Direction (`\Sirel\Node\Order::ASC` or `\Sirel\Node\Order::DESC`).
 The Attribute Objects provide `asc()` and `desc()` Methods for convenience, which return
@@ -60,6 +62,7 @@ echo $users->order($users['username']->desc());
 ## Limit & Offset
 
 Limit and Offset correspond to the `take()` and `skip()` Operators. 
+
 ```php
 $users = new \Sirel\Table("users");
 echo $users->take(5);
