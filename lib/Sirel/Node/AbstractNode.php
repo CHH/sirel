@@ -8,6 +8,6 @@ abstract class AbstractNode implements Node
 {
     function accept(Visitor $visitor)
     {
-        $visitor->visit($this);
+        return $visitor->visit($this);
     }
 }

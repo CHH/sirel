@@ -106,6 +106,11 @@ class ToSql extends AbstractVisitor
     {
         return join(" OR ", $this->visitEach($or->getChildren()));
     }
+    
+    protected function visitSirelNodeGroup(Node\Group $group)
+    {
+        return $this->visit($group->getExpression());
+    }
 
     protected function visitSirelNodeOrder(Node\Order $order)
     {

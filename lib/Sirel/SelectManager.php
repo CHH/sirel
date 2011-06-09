@@ -6,6 +6,7 @@ use Sirel\Node\Node,
     Sirel\Node\SelectStatement,
     Sirel\Node\JoinSource,
     Sirel\Node\Order,
+    Sirel\Node\Group,
     Sirel\Node\Offset,
     Sirel\Node\Limit,
     Sirel\Visitor\Visitor,
@@ -104,7 +105,7 @@ class SelectManager implements \IteratorAggregate, \Countable
         if (null === $expr) {
             $this->nodes->groups = array();
         } else {
-            $this->nodes->groups[] = $expr;
+            $this->nodes->groups[] = new Group($expr);
         }
         return $this;
     }
