@@ -2,7 +2,8 @@
 
 namespace Sirel;
 
-use BadMethodCallException;
+use BadMethodCallException,
+    InvalidArgumentException;
 
 /**
  * Represents the Relation
@@ -17,7 +18,7 @@ use BadMethodCallException;
  * var_dump($users['username'] === $users->username);
  * ```
  */
-class Table implements \ArrayAccess
+class Table implements \ArrayAccess, \IteratorAggregate, \Countable
 {
     /**
      * Attribute instance cache
@@ -104,6 +105,32 @@ class Table implements \ArrayAccess
     {
         return $this->from()->skip($expr);
     }
+
+    function addAttribute(Attribute $attribute)
+    {
+        $attribute->setRelation($this);
+        $this->attributes[$attribute->getName()] = $attribute;
+        return $this;
+    }
+
+    function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+    function count()
+    {
+        return $this->from()->count();
+    }
+
+    /**
+     * Allow iterating over all rows of this table
+     * @return \Traversable
+     */
+    function getIterator()
+    {
+        return $this->from()->getIterator();
+    }
     
     /**
      * Allow to access Table Attributes as properties
@@ -128,12 +155,17 @@ class Table implements \ArrayAccess
 
     function offsetSet($offset, $value)
     {
-        throw new BadMethodCallException("offsetSet is not available");
+        if (!$value instanceof Attribute) {
+            throw new InvalidArgumentException(
+                "Value is not an instance of \\Sirel\\Attribute"
+            );
+        }
+        $this->attributes[$offset] = $value;
     }
 
     function offsetExists($offset)
     {
-        return true;
+        return isset($this->attributes[$offset]);
     }
 
     function offsetUnset($offset)

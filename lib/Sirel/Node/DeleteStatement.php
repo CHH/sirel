@@ -2,17 +2,18 @@
 
 namespace Sirel\Node;
 
-class SelectStatement
+/**
+ * Represents the Syntax Tree of a Delete Statement
+ */
+class DeleteStatement implements Node
 {
-    public $projections = array();
-
     /**
      * @var JoinSource
      */
     public $source;
-    
+
     /**
-     * @var array 
+     * @var array
      */
     public $restrictions = array();
 
@@ -22,17 +23,12 @@ class SelectStatement
     public $orders = array();
 
     /**
-     * @var array
+     * @var Offset
      */
-    public $groups = array();
+    public $offset;
 
     /**
      * @var Limit
      */
     public $limit;
-
-    /**
-     * @var Offset
-     */
-    public $offset;
 }

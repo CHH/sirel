@@ -38,7 +38,7 @@ class Attribute
      * @param string $name
      * @param Table|string $relation
      */
-    function __construct($name, $relation)
+    function __construct($name, $relation = null)
     {
         $this->name = $name;
         $this->relation = $relation;
@@ -60,6 +60,12 @@ class Attribute
     function getRelation()
     {
         return $this->relation;
+    }
+
+    function setRelation($relation)
+    {
+        $this->relation = $relation;
+        return $this;
     }
 
     /**
