@@ -53,14 +53,19 @@ class ToSql extends AbstractVisitor
             $this->visit($select->source),
 
             // WHERE
-            ($select->criteria 
-                ? "WHERE " . join(" AND ", $this->visitEach($select->criteria))
+            ($select->restrictions 
+                ? "WHERE " . join(" AND ", $this->visitEach($select->restrictions))
                 : null
             ),
-            
+
             // ORDER BY
-            ($select->order 
-                ? "ORDER BY " . join(", ", $this->visitEach($select->order))
+            ($select->orders
+                ? "ORDER BY " . join(", ", $this->visitEach($select->orders))
+                : null),
+
+            // GROUP BY
+            ($select->groups
+                ? "GROUP BY " . join(', ', $this->visitEach($select->groups))
                 : null),
 
             // LIMIT

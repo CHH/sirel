@@ -17,12 +17,17 @@ class SelectStatement
     /**
      * @var array 
      */
-    public $criteria = array();
+    public $restrictions = array();
 
     /**
-     * @var Order
+     * @var array
      */
-    public $order = array();
+    public $orders = array();
+
+    /**
+     * @var array
+     */
+    public $groups = array();
 
     /**
      * @var Limit

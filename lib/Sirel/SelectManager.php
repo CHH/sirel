@@ -75,7 +75,7 @@ class SelectManager implements \IteratorAggregate, \Countable
                     "Not an instance of Node given as Restriction"
                 );
             }
-            $this->nodes->criteria[] = $expr;
+            $this->nodes->restrictions[] = $expr;
         }
         return $this;
     }
@@ -83,13 +83,28 @@ class SelectManager implements \IteratorAggregate, \Countable
     function order($expr, $direction = null)
     {
         if (null === $expr) {
-            $this->nodes->order = array();
+            $this->nodes->orders = array();
 
         } else if ($expr instanceof Order) {
-            $this->nodes->order[] = $expr;
+            $this->nodes->orders[] = $expr;
 
         } else {
-            $this->nodes->order[] = new Order($expr, $direction);
+            $this->nodes->orders[] = new Order($expr, $direction);
+        }
+        return $this;
+    }
+
+    /**
+     * Adds a Group expression
+     * @param  mixed $expr
+     * @return SelectManager
+     */
+    function group($expr)
+    {
+        if (null === $expr) {
+            $this->nodes->groups = array();
+        } else {
+            $this->nodes->groups[] = $expr;
         }
         return $this;
     }

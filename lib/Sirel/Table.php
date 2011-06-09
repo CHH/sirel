@@ -90,6 +90,11 @@ class Table implements \ArrayAccess
         return $this->from()->order($expr, $direction);
     }
 
+    function group($expr)
+    {
+        return $this->from()->group($expr);
+    }
+
     function take($expr)
     {
         return $this->from()->take($expr);

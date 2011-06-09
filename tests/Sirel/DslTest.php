@@ -33,6 +33,16 @@ class DslTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $query->toSql());
     }
 
+    function testSimpleGroup()
+    {
+        $users = $this->users;
+        
+        $query = $users->group($users['username']);
+
+        $sqlString = "SELECT * FROM users GROUP BY users.username";
+        $this->assertEquals($sqlString, $query->toSql());
+    }
+
     function testSimpleOr()
     {
         $users = $this->users;
