@@ -132,12 +132,15 @@ class SelectManager
             $updateManager->where($expr);
         }
 
-        foreach ($this->nodes->order as $order) {
+        foreach ($this->nodes->orders as $order) {
             $updateManager->order($order);
         }
 
-        $updateManager->take($this->node->limit->getExpression());
-        $updateManager->skip($this->node->offset->getExpression());
+        empty($this->nodes->limit) ?:
+            $updateManager->take($this->nodes->limit->getExpression());
+
+        empty($this->nodes->offset) ?:
+            $updateManager->skip($this->nodes->offset->getExpression());
 
         return $updateManager;
     }
