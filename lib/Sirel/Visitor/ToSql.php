@@ -42,7 +42,6 @@ class ToSql extends AbstractVisitor
     protected function visitSirelNodeSelectStatement(Node\SelectStatement $select)
     {
         return join(" ", array_filter(array(
-            // SELECT
             "SELECT",
 
             ($select->projections 
