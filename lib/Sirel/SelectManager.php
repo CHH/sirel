@@ -12,30 +12,11 @@ use Sirel\Node\Node,
     Sirel\Visitor\Visitor,
     Sirel\Visitor\ToSql;
 
-class SelectManager 
-    extends AbstractManager
-    implements \IteratorAggregate, \Countable
+class SelectManager extends AbstractManager
 {
     function __construct()
     {
         $this->nodes = new SelectStatement;
-    }
-
-    /**
-     * Allows to directly iterate over the query
-     *
-     * @return \Iterator
-     */
-    function getIterator()
-    {
-    }
-
-    /**
-     * How many rows are in the result?
-     * @return int
-     */
-    function count()
-    {
     }
 
     /**
