@@ -3,7 +3,7 @@
 namespace Sirel\Visitor;
 
 use Sirel\Node,
-    Sirel\Attribute,
+    Sirel\Attribute\Attribute,
     Sirel\Table;
 
 class ToSql extends AbstractVisitor
@@ -229,7 +229,7 @@ class ToSql extends AbstractVisitor
         return $table->getName();
     }
 
-    protected function visitSirelAttribute(Attribute $attribute)
+    protected function visitSirelAttributeAttribute(Attribute $attribute)
     {
         return $this->visit($attribute->getRelation()) 
             . "." . $attribute->getName();

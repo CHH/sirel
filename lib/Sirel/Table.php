@@ -3,7 +3,8 @@
 namespace Sirel;
 
 use BadMethodCallException,
-    InvalidArgumentException;
+    InvalidArgumentException,
+    Sirel\Attribute\Attribute;
 
 /**
  * Represents the Relation

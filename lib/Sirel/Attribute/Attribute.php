@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirel;
+namespace Sirel\Attribute;
 
 use Sirel\Node\Equal,
     Sirel\Node\NotEqual,
