@@ -110,4 +110,16 @@ class DslTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($sqlString, $query->toSql());
     }
+
+    function testCompileUpdateFromSelect()
+    {
+        $users = $this->users;
+        $update = $users->where($users['username']->eq('christoph'))->take(1)
+            ->compileUpdate()->set(array('password' => 'updated'));
+
+        $sqlString = "UPDATE users SET password = 'updated'"
+            . " WHERE users.username = 'christoph' LIMIT 1";
+
+        $this->assertEquals($sqlString, $update->toSql());
+    }
 }
