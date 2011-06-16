@@ -122,4 +122,32 @@ class DslTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($sqlString, $update->toSql());
     }
+
+    function testInsert()
+    {
+        $users = $this->users;
+
+        $insert = $users->insert()->values(array(
+            "username" => "johnny",
+            "password" => "ring of fire"
+        ));
+
+        $sqlString = "INSERT INTO users (username, password)" 
+            . " VALUES ('johnny', 'ring of fire')";
+
+        $this->assertEquals($sqlString, $insert->toSql());
+    }
+
+    function testDelete()
+    {
+        $users = $this->users;
+
+        $delete = $users->delete()
+            ->where($users['username']->eq('johnny'))
+            ->take(1);
+
+        $sqlString = "DELETE FROM users WHERE users.username = 'johnny' LIMIT 1";
+
+        $this->assertEquals($sqlString, $delete->toSql());
+    }
 }

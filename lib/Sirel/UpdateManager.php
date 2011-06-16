@@ -18,7 +18,7 @@ class UpdateManager extends AbstractManager
     function set(array $values)
     {
         array_walk($values, function(&$val, $key) {
-            $key = new Node\SqlLiteral($key);
+            $key = new Node\UnqualifiedColumn($key);
             $val = new Node\Assignment($key, $val);
         });
 

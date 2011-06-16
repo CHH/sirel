@@ -75,6 +75,38 @@ class ToSql extends AbstractVisitor
         )));
     }
 
+    protected function visitSirelNodeInsertStatement(Node\InsertStatement $insert)
+    {
+        return
+            "INSERT INTO " . $this->visit($insert->relation)
+            . ' (' . join(', ', $this->visitEach($insert->columns)) . ')'
+            . ' VALUES (' . join(', ', $this->visitEach($insert->values)) . ')';
+    }
+
+    protected function visitSirelNodeDeleteStatement(Node\DeleteStatement $delete)
+    {
+        return join(' ', array_filter(array(
+            "DELETE FROM " . $this->visit($delete->relation),
+            
+            // WHERE
+            ($delete->restrictions
+                ? "WHERE " . join(" AND ", $this->visitEach($delete->restrictions))
+                : null
+            ),
+
+            // ORDER BY
+            ($delete->orders
+                ? "ORDER BY " . join(", ", $this->visitEach($delete->orders))
+                : null),
+            
+            // LIMIT
+            ($delete->limit ? $this->visit($delete->limit) : null),
+
+            // OFFSET 
+            ($delete->offset ? $this->visit($delete->offset) : null)
+        )));
+    }
+
     protected function visitSirelNodeUpdateStatement(Node\UpdateStatement $update)
     {
         return join(' ', array_filter(array(
@@ -101,6 +133,11 @@ class ToSql extends AbstractVisitor
             // OFFSET 
             ($update->offset ? $this->visit($update->offset) : null)
         )));
+    }
+
+    protected function visitSirelNodeUnqualifiedColumn(Node\UnqualifiedColumn $column)
+    {
+        return $column->getExpression();
     }
 
     /**

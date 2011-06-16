@@ -8,9 +8,9 @@ namespace Sirel\Node;
 class DeleteStatement implements Node
 {
     /**
-     * @var JoinSource
+     * @var Table
      */
-    public $source;
+    public $relation;
 
     /**
      * @var array

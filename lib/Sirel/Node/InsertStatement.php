@@ -19,13 +19,13 @@ class InsertStatement extends AbstractNode
      * List of values for each column
      * @var array
      */
-    public $values;
+    public $values = array();
 
     /**
      * List of columns, which the values should be mapped to
      * @var array
      */
-    public $columns;
+    public $columns = array();
 
     /**
      * For INSERT INTO ... SELECT ... Statements

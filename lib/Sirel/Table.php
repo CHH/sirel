@@ -52,10 +52,26 @@ class Table implements \ArrayAccess, \IteratorAggregate, \Countable
         return $select->from($this);
     }
 
+    /**
+     * Returns a new Update Manager
+     * @return UpdateManager
+     */
     function update()
     {
         $updateManager = new UpdateManager;
         return $updateManager->table($this);
+    }
+
+    function delete()
+    {
+        $deleteManager = new DeleteManager;
+        return $deleteManager->from($this);
+    }
+
+    function insert()
+    {
+        $insertManager = new InsertManager;
+        return $insertManager->into($this);
     }
 
     /**
