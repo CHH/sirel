@@ -24,7 +24,7 @@ Select, Insert, Update or Delete).
 
 These are:
 
- * `from`, `project`, `where`, `òrder`, `group`, `take` or `skip` _to get a Select Manager_
+ * `from`, `project`, `where`, `order`, `group`, `take` or `skip` _to get a Select Manager_
  * `insert` _to get an Insert Manager_
  * `update` _to get an Update Manager_
  * and `delete` _to get a Delete Manager_
