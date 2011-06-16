@@ -20,7 +20,7 @@ The core of Sirel's Query Building API is the __Table__. The Table Object provid
 access to attributes and Factory Methods for Query Managers (think SQL Statements 
 Select, Insert, Update or Delete).
 
-You can use the following Methods for starting queries:
+You can use the following Methods to start building a query:
 
  * `from`, `project`, `where`, `order`, `group`, `take` or `skip` to get a __Select Manager__
  * `insert` to get an __Insert Manager__
