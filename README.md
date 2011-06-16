@@ -137,8 +137,8 @@ echo $users->skip(4);
 
 ## Chaining
 
-The greatest benefit of using a Query Builder is the composability of the queries themselfs. Therefore
-calls to the Manager's methods are not bound to any order and can be changed infinitely.
+The greatest benefit of using a Query Builder is the composability of queries. Therefore
+calls to the Manager's methods are not bound to any order and can be chained infinitely.
 
 For Example:
 
