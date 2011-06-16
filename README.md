@@ -2,7 +2,7 @@ Sirel -- Simple Relation
 ========================
 
 Sirel is a representation of the Relational Algebra (think SQL) in PHP. Its largely inspired
-by Rails' Arel (https://github.com/rails/arel). Sirel uses Namespaces therefore PHP 5.3 is *required*.
+by Rails' Arel (https://github.com/rails/arel). Sirel uses Namespaces, therefore at least PHP 5.3 is *required*.
 
 Sirel is under _heavy_ Development and so the following shortcomings and bugs
 still have to be ironed out:
