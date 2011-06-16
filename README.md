@@ -6,6 +6,7 @@ by Rails' Arel (https://github.com/rails/arel). Sirel uses Namespaces therefore 
 
 Sirel is under _heavy_ Development and so the following shortcomings and bugs
 still have to be ironed out:
+
  * Select Manager has _no_ API for Joins
  * Insert Manager is not implemented
  * Delete Manager is not implemented
@@ -22,6 +23,7 @@ access to attributes and Factory Methods for Query Managers (think SQL Statement
 Select, Insert, Update or Delete).
 
 These are:
+
  * `from`, `project`, `where`, `òrder`, `group`, `take` or `skip` _to get a Select Manager_
  * `insert` _to get an Insert Manager_
  * `update` _to get an Update Manager_
@@ -55,6 +57,7 @@ to define the Table's Scheme.
 This is done by calling `addAttribute` with an Instance of the desired Attribute. 
 
 Sirel provides these Attribute Types:
+
  * BooleanAttribute
  * DecimalAttribute
  * FloatAttribute
@@ -80,6 +83,7 @@ created by an attribute.
 
 Restrictions can be produced by an attribute object. Following
 Methods are supported (which correspond their SQL buddies):
+
  * eq
  * notEq
  * gt
