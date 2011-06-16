@@ -17,15 +17,14 @@ Now let's dive into a bird's eye overview of the things that work ;-).
 ## Relations
 
 The core of Sirel's Query Building API is the __Table__. The Table Object provides convenient
-access to attributes and Factory Methods for Query Managers (think SQL Statements 
-Select, Insert, Update or Delete).
+access to attributes and Factory Methods for Queries.
 
-You can use the following Methods to start building a query:
+You may call this methods on the Table Instance to start building a new query:
 
- * `from`, `project`, `where`, `order`, `group`, `take` or `skip` to get a __Select Manager__
- * `insert` to get an __Insert Manager__
- * `update` to get an __Update Manager__
- * and `delete` to get a __Delete Manager__
+ * `from`, `project`, `where`, `order`, `group`, `take` or `skip` to start building a __Select Query__
+ * `insert` to start building an __Insert Query__
+ * `update` to start building an __Update Query__
+ * and `delete` to start building a __Delete Query__
 
 The constructor takes one argument: the Table Name.
 
