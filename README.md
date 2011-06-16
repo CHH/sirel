@@ -8,8 +8,6 @@ Sirel is under __heavy__ Development and so the following shortcomings and bugs
 still have to be ironed out:
 
  * Select Manager has __no__ API for Joins
- * Insert Manager is not implemented
- * Delete Manager is not implemented
  * __No__ Specific Attribute Visitors (Boolean, Decimal,...)
  * __No__ DBMS-specific Visitors
  * Quoting is really dumb
