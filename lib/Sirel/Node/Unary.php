@@ -4,7 +4,7 @@ namespace Sirel\Node;
 
 abstract class Unary extends AbstractNode
 {
-    protected $expression;
+    public $expression;
 
     function __construct($expression)
     {

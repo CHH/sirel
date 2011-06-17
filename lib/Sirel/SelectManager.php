@@ -2,11 +2,15 @@
 
 namespace Sirel;
 
-use Sirel\Node\Node,
+use UnexpectedValueException,
+    Sirel\Node\Node,
     Sirel\Node\SelectStatement,
     Sirel\Node\JoinSource,
+    Sirel\Node\Join,
+    Sirel\Node\InnerJoin,
     Sirel\Node\Order,
     Sirel\Node\Group,
+    Sirel\Node\On,
     Sirel\Node\Offset,
     Sirel\Node\Limit,
     Sirel\Visitor\Visitor,
@@ -25,7 +29,54 @@ class SelectManager extends AbstractManager
      */
     function from($relation)
     {
-        $this->nodes->source = new JoinSource($relation, null);
+        $this->nodes->source = new JoinSource($relation, array());
+        return $this;
+    }
+
+    function join($relation, $expr = null, $class = "InnerJoin")
+    {
+        return $this->createJoin($relation, $expr, $class);
+    }
+
+    protected function createJoin($relation, $expr = null, $class = "InnerJoin")
+    {
+        if (null !== $expr) {
+            $expr = new On((array) $expr);
+        }
+
+        $fullClass = "\\Sirel\\Node\\$class";
+        $join = new $fullClass($relation, $expr);
+
+        $this->nodes->source->right[] = $join;
+
+        return $this;
+    }
+
+    function on($expr)
+    {
+        $lastJoin = end($this->nodes->source->right);
+        reset($this->nodes->source->right);
+
+        if (!$lastJoin instanceof Join) {
+            throw new UnexpectedValueException(
+                "You are not in a Join Operation. Call join() first"
+            );
+        }
+
+        // Join all given expressions with AND
+        if ($lastJoin->right instanceof On) {
+            // Merge the new ON Expressions with the old if there exists an ON Expression
+            $lastJoin->right->expression = array_merge(
+                $lastJoin->right->expression, 
+                func_get_args()
+            );
+        } else {
+            // Otherwise create a new ON Expression
+            $exprs = new On(func_get_args());
+        }
+
+        // Add the expressions to the on part of the last added Join Expression
+        $lastJoin->right = $exprs;
         return $this;
     }
 

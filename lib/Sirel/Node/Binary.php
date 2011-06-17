@@ -10,12 +10,12 @@ abstract class Binary extends AbstractNode
     /**
      * @var string
      */
-    protected $left;
+    public $left;
 
     /**
      * @var mixed
      */
-    protected $right;
+    public $right;
 
     function __construct($left, $right)
     {

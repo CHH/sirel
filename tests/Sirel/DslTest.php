@@ -2,7 +2,8 @@
 
 namespace Sirel\Test;
 
-use Sirel\Table;
+use Sirel as s,
+    Sirel\Table;
 
 class DslTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,6 +32,21 @@ class DslTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($sqlString, $query->toSql());
+    }
+
+    function testSelectJoin()
+    {
+        $users = $this->users;
+        $profiles = new Table("profiles");
+
+        $select = $users->project(s\star())
+            ->join($profiles)->on($users['id']->eq($profiles['user_id']))
+            ->where($users['id']->eq(1));
+
+        $sqlString = "SELECT * FROM users INNER JOIN profiles" 
+            . " ON users.id = profiles.user_id WHERE users.id = 1";
+
+        $this->assertEquals($sqlString, $select->toSql());
     }
 
     function testSimpleGroup()

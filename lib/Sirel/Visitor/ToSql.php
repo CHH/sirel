@@ -310,8 +310,24 @@ class ToSql extends AbstractVisitor
     {
         $right = $joinSource->getRight();
 
-        return "FROM " . $this->visit($joinSource->getLeft())
-               . ($right ? $this->visit($right) : null);
+        return 
+            "FROM " 
+            . $this->visit($joinSource->getLeft())
+            . ($right ? ' ' . join(' ', $this->visitEach($right)) : null);
+    }
+
+    protected function visitSirelNodeInnerJoin(Node\InnerJoin $join)
+    {
+        return sprintf(
+            "INNER JOIN %s %s", 
+            $this->visit($join->left), 
+            $this->visit($join->right)
+        );
+    }
+
+    protected function visitSirelNodeOn(Node\On $on)
+    {
+        return "ON " . join(" AND ", $this->visitEach($on->expression));
     }
 
     protected function visitInteger($node)
