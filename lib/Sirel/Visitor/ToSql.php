@@ -327,7 +327,7 @@ class ToSql extends AbstractVisitor
 
     protected function visitSirelNodeOn(Node\On $on)
     {
-        return "ON " . join(" AND ", $this->visitEach($on->expression));
+        return "ON " . $this->visit($on->expression);
     }
 
     protected function visitInteger($node)

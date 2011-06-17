@@ -4,7 +4,7 @@ namespace Sirel\Node;
 
 class AndX implements Node
 {
-    protected $children = array();
+    public $children = array();
 
     function __construct(array $children)
     {
