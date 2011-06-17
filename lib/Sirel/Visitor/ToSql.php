@@ -265,6 +265,41 @@ class ToSql extends AbstractVisitor
         return $table->getName();
     }
 
+    protected function visitSirelAttributeBooleanAttribute(Attribute $attribute)
+    {
+        return $this->visitSirelAttributeAttribute($attribute);
+    }
+
+    protected function visitSirelAttributeDecimalAttribute(Attribute $attribute)
+    {
+        return $this->visitSirelAttributeAttribute($attribute);
+    }
+
+    protected function visitSirelAttributeFloatAttribute(Attribute $attribute)
+    {
+        return $this->visitSirelAttributeAttribute($attribute);
+    }
+
+    protected function visitSirelAttributeIntegerAttribute(Attribute $attribute)
+    {
+        return $this->visitSirelAttributeAttribute($attribute);
+    }
+
+    protected function visitSirelAttributeStringAttribute(Attribute $attribute)
+    {
+        return $this->visitSirelAttributeAttribute($attribute);
+    }
+
+    protected function visitSirelAttributeTimeAttribute(Attribute $attribute)
+    {
+        return $this->visitSirelAttributeAttribute($attribute);
+    }
+
+    protected function visitSirelAttributeUndefinedAttribute(Attribute $attribute)
+    {
+        return $this->visitSirelAttributeAttribute($attribute);
+    }
+
     protected function visitSirelAttributeAttribute(Attribute $attribute)
     {
         return $this->visit($attribute->getRelation()) 
