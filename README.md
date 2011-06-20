@@ -7,8 +7,9 @@ by Rails' Arel (https://github.com/rails/arel). Sirel uses Namespaces, therefore
 Sirel is under __heavy__ Development and so the following shortcomings and bugs
 still have to be ironed out:
 
- * __No__ DBMS-specific Visitors
- * Only __Inner__ Joins
+ * __No__ DBMS-specific Visitors (will likely come as Doctrine\DBAL\Platform-
+   enabled Visitor)
+ * Only __Inner__ Joins for now
  * Quoting isn't that smart
 
 Now let's dive into a bird's eye overview of the things that work ;-).
