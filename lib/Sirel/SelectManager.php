@@ -39,20 +39,6 @@ class SelectManager extends AbstractManager
         return $this->createJoin($relation, $expr, $class);
     }
 
-    protected function createJoin($relation, $expr = null, $class = "InnerJoin")
-    {
-        if (null !== $expr) {
-            $expr = new On((array) $expr);
-        }
-
-        $fullClass = "\\Sirel\\Node\\$class";
-        $join = new $fullClass($relation, $expr);
-
-        $this->nodes->source->right[] = $join;
-
-        return $this;
-    }
-
     function on($expr)
     {
         $lastJoin = end($this->nodes->source->right);
@@ -66,7 +52,8 @@ class SelectManager extends AbstractManager
 
         // Join all given expressions with AND
         if ($lastJoin->right instanceof On) {
-            // Merge the new ON Expressions with the old if there exists an ON Expression
+            // Merge the new ON Expressions with the 
+            // old if there exists an ON Expression
             $lastJoin->right->expression->children = array_merge(
                 $lastJoin->right->expression->children, 
                 func_get_args()
@@ -176,5 +163,19 @@ class SelectManager extends AbstractManager
             $updateManager->skip($this->nodes->offset->getExpression());
 
         return $updateManager;
+    }
+
+    protected function createJoin($relation, $expr = null, $class = "InnerJoin")
+    {
+        if (null !== $expr) {
+            $expr = new On((array) $expr);
+        }
+
+        $fullClass = "\\Sirel\\Node\\$class";
+        $join = new $fullClass($relation, $expr);
+
+        $this->nodes->source->right[] = $join;
+
+        return $this;
     }
 }

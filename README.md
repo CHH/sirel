@@ -8,6 +8,7 @@ Sirel is under __heavy__ Development and so the following shortcomings and bugs
 still have to be ironed out:
 
  * __No__ DBMS-specific Visitors
+ * Only __Inner__ Joins
  * Quoting isn't that smart
 
 Now let's dive into a bird's eye overview of the things that work ;-).
