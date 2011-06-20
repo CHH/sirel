@@ -8,7 +8,7 @@ Sirel is under __heavy__ Development and so the following shortcomings and bugs
 still have to be ironed out:
 
  * __No__ DBMS-specific Visitors
- * Quoting is really dumb
+ * Quoting isn't that smart
 
 Now let's dive into a bird's eye overview of the things that work ;-).
 
@@ -44,29 +44,20 @@ echo $users['username'];
 assert($users['username'] === $users->username);
 ```
 
-### Strong Typed Attributes
+## Joins
 
-The Table Object can also be initialized with a set of stronger typed attributes to 
-define the Table's Scheme.
-This is done by calling `addAttribute` with an Instance of the desired Attribute. 
+Joins look very similar to their SQL Counterparts. Joins are started by the `join` operator. The Join's
+`ON` Expression is then set with the next call to `on`. The call to `on` expects one or more Expressions.
 
-Sirel provides these Attribute Types:
-
- * BooleanAttribute
- * DecimalAttribute
- * FloatAttribute
- * IntegerAttribute
- * StringAttribute
- * TimeAttribute
- * UndefinedAttribute
+Example:
 
 ```php
 <?php
-...
-$users
-    ->addAttribute(new \Sirel\Attribute\IntegerAttribute("id"))
-    ->addAttribute(new \Sirel\Attribute\StringAttribute("username"))
-    ->addAttribute(new \Sirel\Attribute\StringAttribute("password"));
+
+$profiles = new Table("profiles");
+
+echo $profiles->project(\Sirel\star())->join($users)->on($profiles['user_id']->eq($users['id']));
+// -> SELECT * FROM profiles INNER JOIN users ON profiles.user_id = users.id
 ```
 
 ## Selections
@@ -89,11 +80,19 @@ restrictions are supported (which each correspond to their SQL equivalents):
  * in
  * notIn
 
+Examples:
+
 ```php
 <?php
 ...
 echo $users->where($users['username']->eq("johnny"), $users['password']->eq('superSecretPass'));
 // -> SELECT * FROM users WHERE users.username = 'johnny' AND users.password = 'superSecretPass'
+
+echo $users->where($users['username']->like('a%'));
+// -> SELECT * FROM users WHERE users.username LIKE 'a%'
+
+echo $users->where($users['id']->in(array(3, 4, 10)));
+// -> SELECT * FROM users WHERE users.id IN (3, 4, 10)
 ```
 
 ## Ordering
@@ -148,4 +147,31 @@ $query->project($users['username']);
 
 echo $query;
 // -> SELECT users.id, users.username FROM users WHERE users.username='johnny' AND users.password='foo' LIMIT 1
+```
+
+## Advanced Features
+
+### Strong Typed Attributes
+
+The Table Object can also be initialized with a set of stronger typed attributes to 
+define the Table's Scheme.
+This is done by calling `addAttribute` with an Instance of the desired Attribute. 
+
+Sirel provides these Attribute Types:
+
+ * BooleanAttribute
+ * DecimalAttribute
+ * FloatAttribute
+ * IntegerAttribute
+ * StringAttribute
+ * TimeAttribute
+ * UndefinedAttribute
+
+```php
+<?php
+...
+$users
+    ->addAttribute(new \Sirel\Attribute\IntegerAttribute("id"))
+    ->addAttribute(new \Sirel\Attribute\StringAttribute("username"))
+    ->addAttribute(new \Sirel\Attribute\StringAttribute("password"));
 ```
