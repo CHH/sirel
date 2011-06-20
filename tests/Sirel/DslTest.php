@@ -49,6 +49,21 @@ class DslTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $select->toSql());
     }
 
+    function testFactoryJoin()
+    {
+        $users = $this->users;
+        $profiles = new Table("profiles");
+
+        $select = $users->join($profiles)
+            ->on($users['id']->eq($profiles['user_id']))
+            ->where($users['id']->eq(1));
+
+        $sqlString = "SELECT * FROM users INNER JOIN profiles"
+            . " ON users.id = profiles.user_id WHERE users.id = 1";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
+
     function testSimpleGroup()
     {
         $users = $this->users;

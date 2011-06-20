@@ -6,7 +6,7 @@
  * @package Sirel
  * @author Christoph Hochstrasser <christoph.hochstrasser@gmail.com>
  */
-namespace Sirel
+namespace Sirel;
 
 use Sirel\Node\SqlLiteral;
 

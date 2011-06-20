@@ -58,7 +58,7 @@ Example:
 
 $profiles = new Table("profiles");
 
-echo $profiles->project(\Sirel\star())->join($users)->on($profiles['user_id']->eq($users['id']));
+echo $profiles->join($users)->on($profiles['user_id']->eq($users['id']));
 // -> SELECT * FROM profiles INNER JOIN users ON profiles.user_id = users.id
 ```
 
