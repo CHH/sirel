@@ -20,7 +20,7 @@ access to attributes and Factory Methods for Queries.
 
 You may call this methods on the Table Instance to start building a new query:
 
- * `from`, `project`, `where`, `order`, `group`, `take` or `skip` to start building a __Select Query__
+ * `from`, `project`, `join`, `where`, `order`, `group`, `take` or `skip` to start building a __Select Query__
  * `insert` to start building an __Insert Query__
  * `update` to start building an __Update Query__
  * and `delete` to start building a __Delete Query__
