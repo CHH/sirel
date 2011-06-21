@@ -130,6 +130,12 @@ class Table implements \ArrayAccess
         }
     }
 
+    /**
+     * Create a new Select Manager and join the given relation
+     *
+     * @param  mixed $relation
+     * @return SelectManager
+     */
     function join($relation)
     {
         return $this->from()->join($relation);
@@ -234,6 +240,15 @@ class Table implements \ArrayAccess
     }
 
     /**
+     * Returns the Table Name for debugging purposes
+     * @return string
+     */
+    function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
      * Allow to access Table Attributes as array offsets on the table object
      *
      * @thorws UnexpectedValueException If $strictScheme is ON and the
@@ -254,6 +269,12 @@ class Table implements \ArrayAccess
         return $this->attributes[$offset];
     }
 
+    /**
+     * Define the given Attribute on the Table
+     * 
+     * @param string    $offset 
+     * @param Attribute $value
+     */
     function offsetSet($offset, $value)
     {
         if (!$value instanceof Attribute) {
