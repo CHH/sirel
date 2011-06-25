@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataset>
+    <users
+        id="1"
+        username="john"
+        password="john1234"
+        created_at="2011-06-21 16:12:00"
+        display_name="John Doe" />
+
+    <users
+        id="2"
+        username="bill"
+        password="bill1234"
+        created_at="2011-06-22 17:18:00"
+        display_name="Bill Clinton" />
+
+    <users
+        id="3"
+        username="mike"
+        password="mike1234"
+        created_at="2011-06-23 12:00:00"
+        display_name="Mike Bolton" />
+</dataset>
