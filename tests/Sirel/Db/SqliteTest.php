@@ -1,6 +1,6 @@
 <?php
 
-namespace Sirel\Test;
+namespace Sirel\Test\Db;
 
 use PDO,
     Sirel\Test\AbstractDbTestCase,
