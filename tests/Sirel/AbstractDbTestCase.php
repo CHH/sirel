@@ -86,6 +86,22 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
         $this->assertEquals(array(2, 3), $this->pluckIds($result));
     }
 
+    function testInnerJoin()
+    {
+        $users = new Table("users");
+        $profiles = new Table("profiles");
+
+        $result = $this->fetchAll(
+            $users->join($profiles)->on($users['id']->eq($profiles['user_id']))
+        );
+
+        $this->assertEquals(2, count($result));
+        $this->assertEquals(array(1, 2), $this->pluckIds($result));
+
+        $this->assertEquals("John Doe", $result[0]['display_name']);
+        $this->assertEquals("1970-01-01 00:00:01", $result[0]['birth_date']);
+    }
+
     function testOrderByCreatedAtDesc()
     {
         $users = new Table("users");
