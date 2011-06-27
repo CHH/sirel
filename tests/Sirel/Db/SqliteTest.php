@@ -3,58 +3,17 @@
 namespace Sirel\Test;
 
 use PDO,
+    Sirel\Test\AbstractDbTestCase,
     Sirel\Table,
     Sirel\AbstractManager,
     Sirel as s;
 
-class SqliteTest extends \PHPUnit_Extensions_Database_TestCase
+class SqliteTest extends AbstractDbTestCase
 {
-    protected $pdo;
-
-    function __construct()
+    protected function initPdo()
     {
-        $this->pdo = new PDO("sqlite::memory:");
-        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        $this->pdo->query("
-            CREATE TABLE users (
-                id INTEGER PRIMARY_KEY,
-                username TEXT,
-                password TEXT,
-                created_at TEXT,
-                display_name TEXT
-            )
-        ");
+        return new PDO("sqlite::memory:");
     }
-
-    protected function getConnection()
-    {
-        return $this->createDefaultDBConnection($this->pdo, 'sqlite');
-    }
-
-    protected function getDataSet()
-    {
-        return $this->createFlatXMLDataSet(__DIR__ . '/fixtures/users.xml');
-    }
-
-    protected function fetchAll($query)
-    {
-        if ($query instanceof AbstractManager) {
-            $query = $query->toSql();
-        }
-        return $this->pdo->query($query)->fetchAll();
-    }
-
-    protected function pluckIds(array $results)
-    {
-        $ids = array_reduce($results, function($return, $v) {
-            $return[] = $v['id'];
-            return $return;
-        }, array());
-
-        return $ids;
-    }
-
 
     function testSelect()
     {
