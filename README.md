@@ -150,7 +150,7 @@ $query->take(1)->where($users['username']->eq("johnny"))->where($users['password
 $query->project($users['username']);
 
 echo $query;
-// -> SELECT users.id, users.username FROM users WHERE users.username='johnny' AND users.password='foo' LIMIT 1
+// -> SELECT users.id, users.username FROM users WHERE users.username = 'johnny' AND users.password = 'foo' LIMIT 1
 ```
 
 ## Advanced Features
