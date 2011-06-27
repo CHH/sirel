@@ -25,6 +25,14 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
                 display_name TEXT
             )
         ");
+
+        $this->pdo->query("
+            CREATE TABLE profiles (
+                id INTEGER PRIMARY_KEY,
+                user_id INTEGER,
+                birth_date TEXT
+            )
+        ");
     }
 
     protected function initPdo()
