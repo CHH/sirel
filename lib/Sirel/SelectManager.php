@@ -1,4 +1,16 @@
 <?php
+/**
+ * Manages SELECT Queries
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file LICENSE.txt.
+ *
+ * @category   Sirel
+ * @package    Sirel
+ * @author     Christoph Hochstrasser <christoph.hochstrasser@gmail.com>
+ * @copyright  Copyright (c) Christoph Hochstrasser
+ * @license    MIT License
+ */
 
 namespace Sirel;
 
@@ -68,6 +80,12 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
+    /**
+     * Adds the given nodes to the list of projections for this Query
+     *
+     * @param  array $projections|Node $projection,...
+     * @return SelectManager
+     */
     function project($projections)
     {
         if (!is_array($projections)) {
@@ -82,6 +100,9 @@ class SelectManager extends AbstractManager
 
     /**
      * Add a node to the criteria
+     *
+     * @param  Node $expr,...
+     * @return SelectManager
      */
     function where(Node $expr)
     {
@@ -125,12 +146,24 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
+    /**
+     * Adds a Limit Expression
+     *
+     * @param  int $numRows
+     * @return SelectManager
+     */
     function take($numRows)
     {
         $this->nodes->limit = $numRows !== null ? new Limit($numRows) : null;
         return $this;
     }
 
+    /**
+     * Adds an Offset Expression
+     *
+     * @param  int $numRows
+     * @return SelectManager
+     */
     function skip($numRows)
     {
         $this->nodes->offset = $numRows !== null ? new Offset($numRows) : null;
@@ -165,6 +198,15 @@ class SelectManager extends AbstractManager
         return $updateManager;
     }
 
+    /**
+     * Creates a Join Expression Instance and adds it to the Join Sources
+     *
+     * @param mixed      $relation
+     * @param Node|array $expr     One Expression, or a list of Expressions
+     * @param string     $class    Type of the Join, defaults to "InnerJoin"
+     *
+     * @return SelectManager
+     */
     protected function createJoin($relation, $expr = null, $class = "InnerJoin")
     {
         if (null !== $expr) {

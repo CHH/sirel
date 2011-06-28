@@ -1,4 +1,16 @@
 <?php
+/**
+ * Base Class for all AST Managers 
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file LICENSE.txt.
+ *
+ * @category   Sirel
+ * @package    Sirel
+ * @author     Christoph Hochstrasser <christoph.hochstrasser@gmail.com>
+ * @copyright  Copyright (c) Christoph Hochstrasser
+ * @license    MIT License
+ */
 
 namespace Sirel;
 
@@ -11,7 +23,7 @@ abstract class AbstractManager
 
     function accept(Visitor $visitor)
     {
-        return $visitor->visit($this->nodes);
+        return $this->nodes->accept($visitor);
     }
 
     /**

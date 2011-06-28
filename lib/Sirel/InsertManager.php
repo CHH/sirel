@@ -1,4 +1,16 @@
 <?php
+/**
+ * Manages INSERT Queries
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file LICENSE.txt.
+ *
+ * @category   Sirel
+ * @package    Sirel
+ * @author     Christoph Hochstrasser <christoph.hochstrasser@gmail.com>
+ * @copyright  Copyright (c) Christoph Hochstrasser
+ * @license    MIT License
+ */
 
 namespace Sirel;
 
@@ -12,6 +24,12 @@ class InsertManager extends AbstractManager
         $this->nodes = new InsertStatement;
     }
 
+    /**
+     * Insert into this relation
+     *
+     * @param  Table $relation
+     * @return InsertManager
+     */
     function into(Table $relation)
     {
         $this->nodes->relation = $relation;
@@ -34,6 +52,35 @@ class InsertManager extends AbstractManager
         }
 
         $this->nodes->values = array_merge($this->nodes->values, $vals);
+        return $this;
+    }
+
+    /**
+     * Sets columns for this insert
+     *
+     * @param  array $columns
+     * @return InsertManager
+     */
+    function columns(array $columns)
+    {
+        foreach ($columns as &$col) {
+            if (!$col instanceof Attribute) {
+                $col = new UnqualifiedColumn($col);
+            }
+        }
+        $this->nodes->columns = $columns;
+        return $this;
+    }
+
+    /**
+     * Get values from this Select Query
+     *
+     * @param  SelectManager $select
+     * @return InsertManager
+     */
+    function select(SelectManager $select)
+    {
+        $this->nodes->select = $select;
         return $this;
     }
 }
