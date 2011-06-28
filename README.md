@@ -1,8 +1,10 @@
 Sirel -- A Simple Relational Algebra for PHP
 ============================================
 
-Sirel is a representation of the Relational Algebra (think SQL) in PHP. Sirel is for PHP what [Arel](https://github.com/rails/arel) is for Ruby.
-Sirel uses __Namespaces__ and follows the [PSR-0 Standard](http://groups.google.com/group/php-standards/web/psr-0-final-proposal?pli=1), therefore at least **PHP 5.3** is **required**.
+Sirel is a representation of the Relational Algebra (think SQL) in PHP. 
+Sirel aims to be to PHP what [Arel](https://github.com/rails/arel) is for Ruby.
+Sirel uses __Namespaces__ and follows the 
+[PSR-0 Standard](http://groups.google.com/group/php-standards/web/psr-0-final-proposal?pli=1), therefore at least **PHP 5.3** is **required**.
 
 * * *
 
@@ -10,7 +12,8 @@ Sirel is under __heavy__ Development and so the following shortcomings and bugs
 still have to be ironed out:
 
  * Only tested with __SQLite__
- * __No__ Generation of DBMS-specific SQL (will likely come as `Doctrine\DBAL`-enabled Visitor)
+ * __No__ Generation of DBMS-specific SQL (will likely come as 
+   `Doctrine\DBAL`-enabled Visitor)
  * Only __Inner__ Joins for now
  * Quoting isn't that smart
 
@@ -179,3 +182,18 @@ $users
     ->addAttribute(new \Sirel\Attribute\StringAttribute("username"))
     ->addAttribute(new \Sirel\Attribute\StringAttribute("password"));
 ```
+
+In Addition to that, you will want to turn the "Strict Scheme" Mode of
+the Table on, to throw an Exception if an Attribute was not defined prior
+to accessing it.
+
+```php
+<?php
+
+$users->setStrictScheme(true);
+
+$users['birth_date'];
+// This will throw an UnexpectedValueException, because 'birth_date' was
+// not defined beforehand
+```
+
