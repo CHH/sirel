@@ -16,6 +16,11 @@ class SqliteTest extends AbstractDbTestCase
     }
 
     /**
+     * Seems like PHP's SQLite does not support Limited
+     * Deletes and Updates. 
+     *
+     * See http://www.sqlite.org/compile.html#enable_update_delete_limit.
+     *
      * @expectedException \PDOException
      */
     function testThrowsExceptionOnDeleteLimit()
