@@ -3,6 +3,7 @@
 namespace Sirel\Test\Db;
 
 use PDO,
+    DateTime,
     Sirel\Test\AbstractDbTestCase,
     Sirel\Table,
     Sirel\AbstractManager,
@@ -20,15 +21,41 @@ class SqliteTest extends AbstractDbTestCase
      * Deletes and Updates. 
      *
      * See http://www.sqlite.org/compile.html#enable_update_delete_limit.
-     *
-     * @expectedException \PDOException
      */
-    function testThrowsExceptionOnDeleteLimit()
+    function testThrowsSyntaxErrorOnLimitedDelete()
     {
         $users = new Table("users");
 
-        $this->pdo->exec(
-            $users->delete()->take(2)->toSql()
-        );
+        try {
+            $this->pdo->exec(
+                $users->delete()->take(2)->toSql()
+            );
+
+            $this->fail();
+
+        } catch (\PDOException $e) {
+            // Expect a Syntax Error
+            $this->assertEquals(1, $e->errorInfo[1]);
+        }
+    }
+
+    function testThrowsSyntaxErrorOnLimitedUpdate()
+    {
+        $users = new Table("users");
+
+        try {
+            $this->pdo->exec(
+                $users->update()
+                ->set(array('created_at' => new DateTime))
+                ->take(2)
+                ->toSql()
+            );
+
+            $this->fail();
+
+        } catch (\PDOException $e) {
+            // Expect a Syntax Error
+            $this->assertEquals(1, $e->errorInfo[1]);
+        }
     }
 }
