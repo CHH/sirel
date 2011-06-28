@@ -2,7 +2,7 @@
 
 namespace Sirel\Node;
 
-class AndX implements Node
+class AndX extends AbstractNode
 {
     public $children = array();
 

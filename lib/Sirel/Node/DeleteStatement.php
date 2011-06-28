@@ -5,7 +5,7 @@ namespace Sirel\Node;
 /**
  * Represents the Syntax Tree of a Delete Statement
  */
-class DeleteStatement implements Node
+class DeleteStatement extends AbstractNode
 {
     /**
      * @var Table

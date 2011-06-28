@@ -2,7 +2,7 @@
 
 namespace Sirel\Node;
 
-class OrX implements Node
+class OrX extends AbstractNode
 {
     public $children = array();
 
