@@ -2,7 +2,7 @@
 
 namespace Sirel;
 
-require __DIR__ . "/../Sirel.php";
+require __DIR__ . "/Sirel.php";
 
 spl_autoload_register(function($class) {
     $file = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR 
