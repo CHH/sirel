@@ -5,9 +5,7 @@ namespace Sirel\Test\Db;
 use PDO,
     DateTime,
     Sirel\Test\AbstractDbTestCase,
-    Sirel\Table,
-    Sirel\AbstractManager,
-    Sirel as s;
+    Sirel\Table;
 
 class SqliteTest extends AbstractDbTestCase
 {
