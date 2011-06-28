@@ -1,4 +1,17 @@
 <?php
+/**
+ * Aims to generate SQL92 Standard compliant SQL
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file LICENSE.txt.
+ *
+ * @category   Sirel
+ * @package    Sirel
+ * @subpackage Visitor
+ * @author     Christoph Hochstrasser <christoph.hochstrasser@gmail.com>
+ * @copyright  Copyright (c) Christoph Hochstrasser
+ * @license    MIT License
+ */
 
 namespace Sirel\Visitor;
 
@@ -75,6 +88,12 @@ class ToSql extends AbstractVisitor
         )));
     }
 
+    /**
+     * Creates an INSERT Statement
+     *
+     * @param  Node\InsertStatement $insert
+     * @return string
+     */
     protected function visitSirelNodeInsertStatement(Node\InsertStatement $insert)
     {
         return
@@ -83,6 +102,12 @@ class ToSql extends AbstractVisitor
             . ' VALUES (' . join(', ', $this->visitEach($insert->values)) . ')';
     }
 
+    /**
+     * Creates a DELETE Statement
+     *
+     * @param  Node\DeleteStatement
+     * @return string
+     */
     protected function visitSirelNodeDeleteStatement(Node\DeleteStatement $delete)
     {
         return join(' ', array_filter(array(
@@ -107,6 +132,12 @@ class ToSql extends AbstractVisitor
         )));
     }
 
+    /**
+     * Creates an UPDATE Statement
+     *
+     * @param  Node\UpdateStatement
+     * @return string
+     */
     protected function visitSirelNodeUpdateStatement(Node\UpdateStatement $update)
     {
         return join(' ', array_filter(array(
@@ -135,6 +166,12 @@ class ToSql extends AbstractVisitor
         )));
     }
 
+    /**
+     * Returns the SQL for an Unqualified Column
+     *
+     * @param  Node\UnqualifiedColumn $column
+     * @return string
+     */
     protected function visitSirelNodeUnqualifiedColumn(Node\UnqualifiedColumn $column)
     {
         return $column->getExpression();
@@ -151,43 +188,89 @@ class ToSql extends AbstractVisitor
         return "LIMIT " . $this->visit($limit->getExpression());
     }
 
+    /**
+     * Creates an OFFSET Clause
+     *
+     * @param  Node\Offset $offset
+     * @return string
+     */
     protected function visitSirelNodeOffset(Node\Offset $offset)
     {
         return "OFFSET " . $this->visit($offset->getExpression());
     }
 
+    /**
+     * Groups the expression in parenthesis
+     *
+     * @param  Node\Grouping $grouping
+     * @return string
+     */
     protected function visitSirelNodeGrouping(Node\Grouping $grouping)
     {
         return '(' . $this->visit($grouping->getExpression()) . ')';
     }
 
+    /**
+     * Joins the children of the node with an AND operator
+     *
+     * @param  Node\AndX $and
+     * @return string
+     */ 
     protected function visitSirelNodeAndX(Node\AndX $and)
     {
         return join(" AND ", $this->visitEach($and->getChildren()));
     }
 
+    /**
+     * Joins the Node's children with an OR operator
+     *
+     * @param  Node\OrX $or
+     * @return string
+     */
     protected function visitSirelNodeOrX(Node\OrX $or) 
     {
         return join(" OR ", $this->visitEach($or->getChildren()));
     }
-    
+
+    /**
+     * @fixme Not sure if this is used
+     */
     protected function visitSirelNodeGroup(Node\Group $group)
     {
         return $this->visit($group->getExpression());
     }
 
+    /**
+     * Create an ORDER Expression
+     *
+     * @param  Node\Order $order
+     * @return string
+     */
     protected function visitSirelNodeOrder(Node\Order $order)
     {
         return $this->visit($order->getExpression()) . " "
             . ($order->isAscending() ? "ASC" : "DESC");
     }
 
+    /**
+     * Handle an Assignment, join with "="
+     *
+     * @param  Node\Assignment $assign
+     * @return string
+     */
     protected function visitSirelNodeAssignment(Node\Assignment $assign)
     {
         return $this->visit($assign->getLeft()) 
             . " = " . $this->visit($assign->getRight());
     }
 
+    /**
+     * Transform to SQL Equality, if the right operand is NULL,
+     * then an "IS NULL" comparison is generated.
+     *
+     * @param  Node\Equal $equal
+     * @return string
+     */
     protected function visitSirelNodeEqual(Node\Equal $equal)
     {
         $left  = $this->visit($equal->getLeft());
@@ -260,6 +343,12 @@ class ToSql extends AbstractVisitor
         return $this->visitBooleanOperator($notLike, "NOT LIKE");
     }
 
+    /**
+     * Returns the Table's name
+     *
+     * @param  Table $table
+     * @return string
+     */
     protected function visitSirelTable(Table $table)
     {
         return $table->getName();
@@ -300,12 +389,24 @@ class ToSql extends AbstractVisitor
         return $this->visitSirelAttributeAttribute($attribute);
     }
 
+    /**
+     * Returns the Attribute's fully qualified name
+     *
+     * @param  Attribute $attribute
+     * @return string
+     */
     protected function visitSirelAttributeAttribute(Attribute $attribute)
     {
         return $this->visit($attribute->getRelation()) 
             . "." . $attribute->getName();
     }
 
+    /**
+     * Returns the FROM part and visits the JOINs
+     *
+     * @param  Node\JoinSource $joinSource
+     * @return string
+     */
     protected function visitSirelNodeJoinSource(Node\JoinSource $joinSource)
     {
         $right = $joinSource->getRight();
@@ -316,6 +417,12 @@ class ToSql extends AbstractVisitor
             . ($right ? ' ' . join(' ', $this->visitEach($right)) : null);
     }
 
+    /**
+     * Creates an INNER JOIN
+     *
+     * @param  Node\InnerJoin $join
+     * @return string
+     */
     protected function visitSirelNodeInnerJoin(Node\InnerJoin $join)
     {
         return sprintf(
@@ -325,6 +432,12 @@ class ToSql extends AbstractVisitor
         );
     }
 
+    /**
+     * Visits the ON Expression
+     *
+     * @param  Node\On $on
+     * @return string
+     */
     protected function visitSirelNodeOn(Node\On $on)
     {
         return "ON " . $this->visit($on->expression);

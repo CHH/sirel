@@ -23,12 +23,6 @@ abstract class Binary extends AbstractNode
         $this->right = $right;
     }
 
-    function __clone()
-    {
-        $this->left = clone $this->left;
-        $this->right = clone $this->right;
-    }
-
     function getLeft()
     {
         return $this->left;

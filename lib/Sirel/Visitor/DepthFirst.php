@@ -1,6 +1,6 @@
 <?php
 /**
- * Calls the supplied callback if a Node is visited
+ * Calls the supplied callback when a Node is visited
  *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.txt.
@@ -32,6 +32,9 @@ class DepthFirst implements Visitor
 
     function visit($node)
     {
+        if ($node instanceof AbstractNode) {
+            $node->accept($this);
+        }
         return call_user_func($this->callback, $node);
     }
 }
