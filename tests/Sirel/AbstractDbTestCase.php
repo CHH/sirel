@@ -45,7 +45,7 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
 
     protected function getDataSet()
     {
-        return $this->createFlatXMLDataSet(__DIR__ . '/fixtures/users.xml');
+        return $this->createFlatXMLDataSet(__DIR__ . '/fixtures.xml');
     }
 
     protected function fetchAll($query)
