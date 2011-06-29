@@ -2,7 +2,7 @@
 
 namespace Sirel\Test;
 
-use Sirel as s,
+use Sirel\Sirel,
     Sirel\Table;
 
 class DslTest extends \PHPUnit_Framework_TestCase
@@ -39,7 +39,7 @@ class DslTest extends \PHPUnit_Framework_TestCase
         $users = $this->users;
         $profiles = new Table("profiles");
 
-        $select = $users->project(s\star())
+        $select = $users->project(Sirel::star())
             ->join($profiles)->on($users['id']->eq($profiles['user_id']))
             ->where($users['id']->eq(1));
 

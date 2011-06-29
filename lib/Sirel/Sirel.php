@@ -16,32 +16,35 @@ namespace Sirel;
 
 use Sirel\Node\SqlLiteral;
 
-/**
- * Version, for use with version_compare
- *
- * @const string
- */
-const VERSION = "0.1.0alpha1";
-
-/**
- * Marks the provided raw SQL as safe, by wrapping it
- * inside an SqlLiteral Instance
- *
- * @param  string $rawSql String of raw SQL, which should be marked as safe
- * @return SqlLiteral
- */
-function sql($rawSql)
+class Sirel
 {
-    return new SqlLiteral($rawSql);
-}
+    /**
+     * Version, for use with version_compare
+     *
+     * @const string
+     */
+    const VERSION = "0.1.0alpha1";
 
-/**
- * Returns the '*' quantifier wrapped as SQL Literal
- * for use in projections
- *
- * @return SqlLiteral
- */
-function star()
-{
-    return sql('*');
+    /**
+     * Marks the provided raw SQL as safe, by wrapping it
+     * inside an SqlLiteral Instance
+     *
+     * @param  string $rawSql String of raw SQL, which should be marked as safe
+     * @return SqlLiteral
+     */
+    static function sql($rawSql)
+    {
+        return new SqlLiteral($rawSql);
+    }
+
+    /**
+     * Returns the '*' quantifier wrapped as SQL Literal
+     * for use in projections
+     *
+     * @return SqlLiteral
+     */
+    static function star()
+    {
+        return static::sql('*');
+    }
 }

@@ -3,7 +3,7 @@
 namespace Sirel\Test;
 
 use PDO,
-    Sirel as s,
+    Sirel\Sirel,
     Sirel\AbstractManager,
     Sirel\Table;
 
@@ -70,7 +70,7 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
     {
         $users = new Table("users");
 
-        $result = $this->fetchAll($users->project(s\star()));
+        $result = $this->fetchAll($users->project(Sirel::star()));
         $this->assertEquals(3, count($result));
     }
 
@@ -79,7 +79,7 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
         $users = new Table("users");
 
         $result = $this->fetchAll(
-            $users->project(s\star())->take(2)->skip(1)
+            $users->project(Sirel::star())->take(2)->skip(1)
         );
 
         $this->assertEquals(2, count($result));
@@ -118,7 +118,7 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
         $users = new Table("users");
 
         $query = $users
-            ->project(s\star())
+            ->project(Sirel::star())
             ->where($users['username']->eq('john'))
             ->where($users['password']->eq('john1234'));
 
@@ -189,7 +189,7 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
         $this->assertEquals(1, $rowsDeleted);
 
         $rest = $this->fetchAll(
-            $users->project(s\sql('COUNT(id)'))
+            $users->project(Sirel::sql('COUNT(id)'))
         );
 
         $this->assertEquals(2, $rest[0]['COUNT(id)']);
@@ -206,7 +206,7 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
         $this->assertEquals(3, $rowsDeleted);
 
         $row = $this->pdo->query(
-            $users->project(s\sql('COUNT(\'id\') AS count'))
+            $users->project(Sirel::sql('COUNT(\'id\') AS count'))
         )->fetch();
 
         $this->assertEquals(0, $row['count']);
