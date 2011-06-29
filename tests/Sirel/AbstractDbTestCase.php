@@ -38,12 +38,12 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
     protected function initPdo()
     {}
 
-    protected function getConnection()
+    function getConnection()
     {
         return $this->createDefaultDBConnection($this->pdo, 'sqlite');
     }
 
-    protected function getDataSet()
+    function getDataSet()
     {
         return $this->createFlatXMLDataSet(__DIR__ . '/fixtures.xml');
     }
