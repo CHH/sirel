@@ -6,6 +6,22 @@ Sirel aims to be to PHP what [Arel](https://github.com/rails/arel) is for Ruby.
 Sirel uses __Namespaces__ and follows the 
 [PSR-0 Standard](http://groups.google.com/group/php-standards/web/psr-0-final-proposal?pli=1), therefore at least **PHP 5.3** is **required**.
 
+## Install
+
+Copy the contents of the `lib` folder into your Project and set up
+Autoloading for the `Sirel` Namespace.
+
+If you're using the Symfony ClassLoader:
+
+```php
+<?php
+
+$classLoader->registerNamespace('Sirel', YOUR_SIREL_INSTALL_LOCATION);
+```
+
+Alternatively you can also use the supplied `lib/Sirel/\_autoload.php`,
+which provides a Class Map based Autoloader.
+
 * * *
 
 Sirel is under __heavy__ Development and so the following shortcomings and bugs

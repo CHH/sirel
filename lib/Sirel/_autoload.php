@@ -1,20 +1,63 @@
 <?php
-
 namespace Sirel;
-
-spl_autoload_register(function($class) {
-    $file = __DIR__ . DIRECTORY_SEPARATOR . ".." . DIRECTORY_SEPARATOR 
-          . str_replace('\\', DIRECTORY_SEPARATOR, $class) . ".php";
-
-    if (!realpath($file)) {
-        return false;
+$_map = array (
+  'Sirel\\AbstractManager' => __DIR__ . DIRECTORY_SEPARATOR . 'AbstractManager.php',
+  'Sirel\\Attribute\\Attribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute\\Attribute.php',
+  'Sirel\\Attribute\\BooleanAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute\\BooleanAttribute.php',
+  'Sirel\\Attribute\\DecimalAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute\\DecimalAttribute.php',
+  'Sirel\\Attribute\\FloatAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute\\FloatAttribute.php',
+  'Sirel\\Attribute\\IntegerAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute\\IntegerAttribute.php',
+  'Sirel\\Attribute\\StringAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute\\StringAttribute.php',
+  'Sirel\\Attribute\\TimeAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute\\TimeAttribute.php',
+  'Sirel\\Attribute\\UndefinedAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute\\UndefinedAttribute.php',
+  'Sirel\\DeleteManager' => __DIR__ . DIRECTORY_SEPARATOR . 'DeleteManager.php',
+  'Sirel\\InsertManager' => __DIR__ . DIRECTORY_SEPARATOR . 'InsertManager.php',
+  'Sirel\\Node\\AbstractNode' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\AbstractNode.php',
+  'Sirel\\Node\\AndX' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\AndX.php',
+  'Sirel\\Node\\Assignment' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Assignment.php',
+  'Sirel\\Node\\Binary' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Binary.php',
+  'Sirel\\Node\\DeleteStatement' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\DeleteStatement.php',
+  'Sirel\\Node\\Equal' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Equal.php',
+  'Sirel\\Node\\GreaterThan' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\GreaterThan.php',
+  'Sirel\\Node\\GreaterThanEqual' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\GreaterThanEqual.php',
+  'Sirel\\Node\\Group' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Group.php',
+  'Sirel\\Node\\Grouping' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Grouping.php',
+  'Sirel\\Node\\Having' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Having.php',
+  'Sirel\\Node\\InnerJoin' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\InnerJoin.php',
+  'Sirel\\Node\\InsertStatement' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\InsertStatement.php',
+  'Sirel\\Node\\InValues' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\InValues.php',
+  'Sirel\\Node\\Join' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Join.php',
+  'Sirel\\Node\\JoinSource' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\JoinSource.php',
+  'Sirel\\Node\\LessThan' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\LessThan.php',
+  'Sirel\\Node\\LessThanEqual' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\LessThanEqual.php',
+  'Sirel\\Node\\Like' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Like.php',
+  'Sirel\\Node\\Limit' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Limit.php',
+  'Sirel\\Node\\Node' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Node.php',
+  'Sirel\\Node\\Not' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Not.php',
+  'Sirel\\Node\\NotEqual' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\NotEqual.php',
+  'Sirel\\Node\\NotInValues' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\NotInValues.php',
+  'Sirel\\Node\\NotLike' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\NotLike.php',
+  'Sirel\\Node\\Offset' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Offset.php',
+  'Sirel\\Node\\On' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\On.php',
+  'Sirel\\Node\\Order' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Order.php',
+  'Sirel\\Node\\OrX' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\OrX.php',
+  'Sirel\\Node\\SelectStatement' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\SelectStatement.php',
+  'Sirel\\Node\\SqlLiteral' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\SqlLiteral.php',
+  'Sirel\\Node\\Unary' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\Unary.php',
+  'Sirel\\Node\\UnqualifiedColumn' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\UnqualifiedColumn.php',
+  'Sirel\\Node\\UpdateStatement' => __DIR__ . DIRECTORY_SEPARATOR . 'Node\\UpdateStatement.php',
+  'Sirel\\SelectManager' => __DIR__ . DIRECTORY_SEPARATOR . 'SelectManager.php',
+  'Sirel\\Sirel' => __DIR__ . DIRECTORY_SEPARATOR . 'Sirel.php',
+  'Sirel\\Table' => __DIR__ . DIRECTORY_SEPARATOR . 'Table.php',
+  'Sirel\\UpdateManager' => __DIR__ . DIRECTORY_SEPARATOR . 'UpdateManager.php',
+  'Sirel\\Visitor\\AbstractVisitor' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor\\AbstractVisitor.php',
+  'Sirel\\Visitor\\AmazonSimpleDb' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor\\AmazonSimpleDb.php',
+  'Sirel\\Visitor\\DepthFirst' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor\\DepthFirst.php',
+  'Sirel\\Visitor\\ToSql' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor\\ToSql.php',
+  'Sirel\\Visitor\\Visitor' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor\\Visitor.php',
+);
+spl_autoload_register(function($class) use ($_map) {
+    if (array_key_exists($class, $_map)) {
+        require_once $_map[$class];
     }
-
-    require $file;
-
-    if (!class_exists($class, false) and !interface_exists($class, false)) {
-        trigger_error("$class was not found in file $file", E_USER_WARNING);
-        return false;
-    }
-    return true;
 });
