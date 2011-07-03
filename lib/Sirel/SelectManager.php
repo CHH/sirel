@@ -61,16 +61,27 @@ class SelectManager extends AbstractManager
         return $this->join($relation, $expr, Join::LEFT);
     }
 
+    /**
+     * Sets the Last added Join to natural
+     *
+     * @param bool $enabled
+     * @return SelectManager
+     */
+    function natural($enabled = true)
+    {
+        $this->getLastJoinSource()->natural = (bool) $enabled;
+        return $this;
+    }
+
+    /**
+     * Adds Join Constraints to the last added Join Source
+     *
+     * @param  Node $expr,...
+     * @return SelectManager
+     */
     function on($expr)
     {
-        $lastJoin = end($this->nodes->source->right);
-        reset($this->nodes->source->right);
-
-        if (!$lastJoin instanceof Join) {
-            throw new UnexpectedValueException(
-                "You are not in a Join Operation. Call join() first"
-            );
-        }
+        $lastJoin = $this->getLastJoinSource();
 
         // Join all given expressions with AND
         if ($lastJoin->right instanceof On) {
@@ -208,16 +219,32 @@ class SelectManager extends AbstractManager
         return $updateManager;
     }
 
+    protected function getLastJoinSource()
+    {
+        $lastJoin = current(array_slice($this->nodes->source->right, -1, 1));
+
+        if (!$lastJoin instanceof Join) {
+            throw new UnexpectedValueException(
+                "You are not in a Join Operation. Call join() first"
+            );
+        }
+
+        return $lastJoin;
+    }
+
     /**
      * Creates a Join Expression Instance and adds it to the Join Sources
      *
      * @param mixed      $relation
      * @param Node|array $expr     One Expression, or a list of Expressions
-     * @param string     $class    Type of the Join, defaults to "InnerJoin"
+     * @param string     $mode     Type of the Join, defaults to "InnerJoin"
+     * @param bool       $natural  Sets the Join to Natural, if true
      *
      * @return SelectManager
      */
-    protected function createJoin($relation, $expr = null, $mode = Join::INNER)
+    protected function createJoin(
+        $relation, $expr = null, $mode = Join::INNER, $natural = false
+    )
     {
         if (null !== $expr) {
             $expr = new On((array) $expr);
