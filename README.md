@@ -83,6 +83,20 @@ echo $profiles->join($users)->on($profiles['user_id']->eq($users['id']));
 // -> SELECT * FROM profiles INNER JOIN users ON profiles.user_id = users.id
 ```
 
+Left Joins can be created with the `leftJoin` operator.
+
+Example:
+
+```php
+<?php
+
+$profiles = new Table("profiles");
+
+echo $profiles->leftJoin($users)->on($profiles['user_id']->eq($users['id']));
+// -> SELECT * FROM profiles LEFT JOIN users ON profiles.user_id =
+users.id
+```
+
 ## Selections
 
 Selections are done in Sirel with the `where` operator. The `where`
