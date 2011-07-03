@@ -27,11 +27,12 @@ which provides a Class Map based Autoloader.
 Sirel is under __heavy__ Development and so the following shortcomings and bugs
 still have to be ironed out:
 
- * Only tested with __SQLite__
+ * Only tested with __SQLite__, most other DBMS implement a superset of SQLite's SQL, so may
+   also work with MySQL though.
  * __No__ Generation of DBMS-specific SQL (will likely come as 
-   `Doctrine\DBAL`-enabled Visitor)
+   Doctrine DBAL-enabled Visitor)
  * Only __Inner__ Joins for now
- * Quoting isn't that smart
+ * No Escaping
 
 Now let's dive into a bird's eye overview of the things that work ;-).
 
