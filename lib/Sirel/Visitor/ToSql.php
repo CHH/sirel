@@ -418,18 +418,40 @@ class ToSql extends AbstractVisitor
     }
 
     /**
-     * Creates an INNER JOIN
+     * Creates a JOIN
      *
-     * @param  Node\InnerJoin $join
+     * @param  Node\Join $join
      * @return string
      */
-    protected function visitSirelNodeInnerJoin(Node\InnerJoin $join)
+    protected function visitSirelNodeJoin(Node\Join $join)
     {
-        return sprintf(
-            "INNER JOIN %s %s", 
-            $this->visit($join->left), 
-            $this->visit($join->right)
-        );
+        switch ($join->mode) {
+            case Node\Join::INNER:
+                $mode = "INNER";
+                break;
+            case Node\Join::LEFT:
+                $mode = "LEFT";
+                break;
+            case Node\Join::LEFT_OUTER:
+                $mode = "LEFT OUTER";
+                break;
+            case Node\Join::RIGHT:
+                $mode = "RIGHT";
+                break;
+            case Node\Join::OUTER;
+                $mode = "OUTER";
+                break;
+            default:
+                $mode = '';
+                break;
+        }
+
+        return ($join->natural ? 'NATURAL ' : '')
+            . ($mode ? $mode . ' ' : '')
+            . "JOIN "
+            . $this->visit($join->left)
+            . ' '
+            . $this->visit($join->right);
     }
 
     /**

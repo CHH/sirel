@@ -46,9 +46,19 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
-    function join($relation, $expr = null, $class = "InnerJoin")
+    function join($relation, $expr = null, $mode = Join::INNER)
     {
-        return $this->createJoin($relation, $expr, $class);
+        return $this->createJoin($relation, $expr, $mode);
+    }
+
+    function innerJoin($relation, $expr = null)
+    {
+        return $this->join($relation, $expr);
+    }
+
+    function leftJoin($relation, $expr = null)
+    {
+        return $this->join($relation, $expr, Join::LEFT);
     }
 
     function on($expr)
@@ -207,14 +217,14 @@ class SelectManager extends AbstractManager
      *
      * @return SelectManager
      */
-    protected function createJoin($relation, $expr = null, $class = "InnerJoin")
+    protected function createJoin($relation, $expr = null, $mode = Join::INNER)
     {
         if (null !== $expr) {
             $expr = new On((array) $expr);
         }
 
-        $fullClass = "\\Sirel\\Node\\$class";
-        $join = new $fullClass($relation, $expr);
+        $join = new Join($relation, $expr);
+        $join->mode = $mode;
 
         $this->nodes->source->right[] = $join;
 

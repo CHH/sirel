@@ -2,11 +2,27 @@
 
 namespace Sirel\Node;
 
-abstract class Join extends Binary
+class Join extends Binary
 {
-    function on($expr)
-    {
-        $this->right = $expr;
-        return $this;
-    }
+    /*
+     * Join Modes
+     */
+    const INNER = 0;
+    const OUTER = 1;
+    const LEFT  = 2;
+    const LEFT_OUTER = 3;
+    const RIGHT = 4;
+    const CROSS = 5;
+
+    /**
+     * Is this a natural Join?
+     * @var bool
+     */
+    public $natural = false;
+    
+    /**
+     * Join Mode
+     * @var int
+     */
+    public $mode;
 }
