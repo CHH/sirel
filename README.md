@@ -19,7 +19,7 @@ If you're using the Symfony ClassLoader:
 $classLoader->registerNamespace('Sirel', YOUR_SIREL_INSTALL_LOCATION);
 ```
 
-Alternatively you can also use the supplied `lib/Sirel/\_autoload.php`,
+Alternatively you can also use the supplied `lib/Sirel/_autoload.php`,
 which provides a Class Map based Autoloader.
 
 * * *
