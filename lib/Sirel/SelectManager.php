@@ -38,6 +38,7 @@ class SelectManager extends AbstractManager
 
     /**
      * Which relation should be selected?
+     *
      * @param string $relation
      */
     function from($relation)
@@ -48,7 +49,15 @@ class SelectManager extends AbstractManager
 
     function join($relation, $expr = null, $mode = Join::INNER)
     {
-        return $this->createJoin($relation, $expr, $mode);
+        if (null !== $expr) {
+            $expr = new On(new AndX((array) $expr));
+        }
+
+        $join = new Join($relation, $expr);
+        $join->mode = $mode;
+
+        $this->nodes->source->right[] = $join;
+        return $this;
     }
 
     function innerJoin($relation, $expr = null)
@@ -230,31 +239,5 @@ class SelectManager extends AbstractManager
         }
 
         return $lastJoin;
-    }
-
-    /**
-     * Creates a Join Expression Instance and adds it to the Join Sources
-     *
-     * @param mixed      $relation
-     * @param Node|array $expr     One Expression, or a list of Expressions
-     * @param string     $mode     Type of the Join, defaults to "InnerJoin"
-     * @param bool       $natural  Sets the Join to Natural, if true
-     *
-     * @return SelectManager
-     */
-    protected function createJoin(
-        $relation, $expr = null, $mode = Join::INNER, $natural = false
-    )
-    {
-        if (null !== $expr) {
-            $expr = new On((array) $expr);
-        }
-
-        $join = new Join($relation, $expr);
-        $join->mode = $mode;
-
-        $this->nodes->source->right[] = $join;
-
-        return $this;
     }
 }
