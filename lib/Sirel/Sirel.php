@@ -20,10 +20,9 @@ class Sirel
 {
     /**
      * Version, for use with version_compare
-     *
      * @const string
      */
-    const VERSION = "0.1.0alpha1";
+    const VERSION = "0.1.0dev";
 
     /**
      * Marks the provided raw SQL as safe, by wrapping it
@@ -46,5 +45,37 @@ class Sirel
     static function star()
     {
         return static::sql('*');
+    }
+
+    /**
+     * @return SelectManager
+     */
+    static function createSelect()
+    {
+        return new SelectManager;
+    }
+
+    /**
+     * @return InsertManager
+     */
+    static function createInsert()
+    {
+        return new InsertManager;
+    }
+
+    /**
+     * @return UpdateManager
+     */
+    static function createUpdate()
+    {
+        return new UpdateManager;
+    }
+
+    /**
+     * @return DeleteManager
+     */
+    static function createDelete()
+    {
+        return new DeleteManager;
     }
 }
