@@ -24,6 +24,7 @@ use UnexpectedValueException,
     Sirel\Node\Group,
     Sirel\Node\AndX,
     Sirel\Node\On,
+    Sirel\Node\Using,
     Sirel\Node\Offset,
     Sirel\Node\Limit,
     Sirel\Visitor\Visitor,
@@ -50,7 +51,7 @@ class SelectManager extends AbstractManager
     function join($relation, $expr = null, $mode = Join::INNER)
     {
         if (null !== $expr) {
-            $expr = new On(new AndX((array) $expr));
+            $expr = new On(new AndX(array($expr)));
         }
 
         $join = new Join($relation, $expr);
@@ -96,17 +97,33 @@ class SelectManager extends AbstractManager
         if ($lastJoin->right instanceof On) {
             // Merge the new ON Expressions with the 
             // old if there exists an ON Expression
-            $lastJoin->right->expression->children = array_merge(
-                $lastJoin->right->expression->children, 
-                func_get_args()
-            );
+            $lastJoin->right->expression = $expr;
         } else {
             // Otherwise create a new ON Expression
-            $exprs = new On(new AndX(func_get_args()));
+            $lastJoin->right = new On($expr);
+        }
+        return $this;
+    }
+
+    function using($columns)
+    {
+        $lastJoin = $this->getLastJoinSource();
+
+        if (false === $columns) {
+            $lastJoin->right = null;
+            return $this;
         }
 
-        // Add the expressions to the on part of the last added Join Expression
-        $lastJoin->right = $exprs;
+        $columns  = is_array($columns) ? $columns : func_get_args();
+
+        if ($lastJoin->right instanceof Using) {
+            $lastJoin->right->expression = array_merge(
+                $lastJoin->right->expression,
+                $columns
+            );
+        } else {
+            $lastJoin->right = new Grouping($columns);
+        }
         return $this;
     }
 

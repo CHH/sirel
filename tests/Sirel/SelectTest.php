@@ -34,6 +34,16 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $query->toSql());
     }
 
+    function testPassProjectionsAsMultipleArguments()
+    {
+        $users = $this->users;
+        $select = $users->from()->project($users['id'], $users['username']);
+
+        $sqlString = "SELECT users.id, users.username FROM users";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
+
     function testOr()
     {
         $users = $this->users;
@@ -62,17 +72,73 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $select->toSql());
     }
 
+    function testPassConstraintToJoin()
+    {
+        $users = $this->users;
+        $profiles = new Table("profiles");
+
+        $select = $users->project(Sirel::star())
+            ->join($profiles, $users['id']->eq($profiles['user_id']));
+
+        $sqlString = "SELECT * FROM users INNER JOIN profiles"
+            . " ON users.id = profiles.user_id";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
+
+    function testRepeatedCallToOnOverridesJoinConstraint()
+    {
+        $users = $this->users;
+        $profiles = new Table("profiles");
+
+        $select = $users->project(Sirel::star())
+            ->join($profiles, $users['id']->eq($profiles['user_id']));
+
+        $sqlString = "SELECT * FROM users INNER JOIN profiles"
+            . " ON users.id = profiles.user_id";
+
+        $this->assertEquals($sqlString, $select->toSql());
+
+        $select->on($profiles['user_id']->eq($users['id']));
+
+        $this->assertEquals(
+            "SELECT * FROM users INNER JOIN profiles" 
+            . " ON profiles.user_id = users.id", 
+            $select->toSql()
+        );
+    }
+
     function testInnerJoin()
     {
         $users = $this->users;
         $profiles = new Table("profiles");
 
         $select = $users->project(Sirel::star())
-            ->join($profiles)->on($users['id']->eq($profiles['user_id']))
-            ->where($users['id']->eq(1));
+            ->join($profiles)->on($users['id']->eq($profiles['user_id']));
 
         $sqlString = "SELECT * FROM users INNER JOIN profiles" 
-            . " ON users.id = profiles.user_id WHERE users.id = 1";
+            . " ON users.id = profiles.user_id";
+
+        $this->assertEquals($sqlString, $select->toSql());
+
+        $this->assertEquals(
+            $sqlString, 
+            $users
+                ->project(Sirel::star())
+                ->innerJoin($profiles, $users['id']->eq($profiles['user_id']))
+                ->toSql()
+        );
+    }
+
+    function testNaturalInnerJoin()
+    {
+        $users = $this->users;
+        $profiles = new Table("profiles");
+
+        $select = $users->project(Sirel::star())
+            ->innerJoin($profiles)->natural();
+
+        $sqlString = "SELECT * FROM users NATURAL INNER JOIN profiles"; 
 
         $this->assertEquals($sqlString, $select->toSql());
     }

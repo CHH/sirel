@@ -450,8 +450,7 @@ class ToSql extends AbstractVisitor
             . ($mode ? $mode . ' ' : '')
             . "JOIN "
             . $this->visit($join->left)
-            . ' '
-            . $this->visit($join->right);
+            . ($join->right ? ' ' . $this->visit($join->right) : '');
     }
 
     /**
@@ -463,6 +462,11 @@ class ToSql extends AbstractVisitor
     protected function visitSirelNodeOn(Node\On $on)
     {
         return "ON " . $this->visit($on->expression);
+    }
+
+    protected function visitSirelNodeUsing(Node\Using $using)
+    {
+        return "USING " . $this->visit($using->expression);
     }
 
     protected function visitInteger($node)
