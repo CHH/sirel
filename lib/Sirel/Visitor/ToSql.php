@@ -22,17 +22,6 @@ use Sirel\Node,
 class ToSql extends AbstractVisitor
 {
     /**
-     * Utility Method for visiting each item in an list
-     *
-     * @param  array $list
-     * @return array Array with the result of each visit
-     */
-    protected function visitEach($list)
-    {
-        return array_map(array($this, "visit"), (array) $list);
-    }
-
-    /**
      * Utility method for visiting Boolean operators (Equal, GreaterThan,...)
      *
      * @param  Node\Binary $node A binary node

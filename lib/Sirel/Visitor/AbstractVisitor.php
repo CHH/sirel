@@ -64,4 +64,15 @@ abstract class AbstractVisitor implements Visitor
 
         return $this->$method($node);
     }
+
+    /**
+     * Utility Method for visiting each item in an list
+     *
+     * @param  array $list
+     * @return array Array with the result of each visit
+     */
+    protected function visitEach($list)
+    {
+        return array_map(array($this, "visit"), (array) $list);
+    }
 }

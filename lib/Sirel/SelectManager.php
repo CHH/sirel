@@ -109,7 +109,7 @@ class SelectManager extends AbstractManager
     {
         $lastJoin = $this->getLastJoinSource();
 
-        if (false === $columns) {
+        if (null === $columns) {
             $lastJoin->right = null;
             return $this;
         }

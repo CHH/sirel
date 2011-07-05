@@ -20,6 +20,7 @@ class Sirel
 {
     /**
      * Version, for use with version_compare
+     *
      * @const string
      */
     const VERSION = "0.1.0dev";
