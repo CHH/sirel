@@ -1,62 +1,10 @@
 <?php
 namespace Sirel;
-$_map = array (
-  'Sirel\\Sirel' => __DIR__ . DIRECTORY_SEPARATOR . 'Sirel.php',
-  'Sirel\\SelectManager' => __DIR__ . DIRECTORY_SEPARATOR . 'SelectManager.php',
-  'Sirel\\UpdateManager' => __DIR__ . DIRECTORY_SEPARATOR . 'UpdateManager.php',
-  'Sirel\\Table' => __DIR__ . DIRECTORY_SEPARATOR . 'Table.php',
-  'Sirel\\InsertManager' => __DIR__ . DIRECTORY_SEPARATOR . 'InsertManager.php',
-  'Sirel\\DeleteManager' => __DIR__ . DIRECTORY_SEPARATOR . 'DeleteManager.php',
-  'Sirel\\Visitor\\ToSql' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor/ToSql.php',
-  'Sirel\\Visitor\\AbstractVisitor' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor/AbstractVisitor.php',
-  'Sirel\\Visitor\\Visitor' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor/Visitor.php',
-  'Sirel\\Visitor\\AmazonSimpleDb' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor/AmazonSimpleDb.php',
-  'Sirel\\Visitor\\DepthFirst' => __DIR__ . DIRECTORY_SEPARATOR . 'Visitor/DepthFirst.php',
-  'Sirel\\AbstractManager' => __DIR__ . DIRECTORY_SEPARATOR . 'AbstractManager.php',
-  'Sirel\\Attribute\\Attribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute/Attribute.php',
-  'Sirel\\Attribute\\StringAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute/StringAttribute.php',
-  'Sirel\\Attribute\\DecimalAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute/DecimalAttribute.php',
-  'Sirel\\Attribute\\TimeAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute/TimeAttribute.php',
-  'Sirel\\Attribute\\IntegerAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute/IntegerAttribute.php',
-  'Sirel\\Attribute\\BooleanAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute/BooleanAttribute.php',
-  'Sirel\\Attribute\\UndefinedAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute/UndefinedAttribute.php',
-  'Sirel\\Attribute\\FloatAttribute' => __DIR__ . DIRECTORY_SEPARATOR . 'Attribute/FloatAttribute.php',
-  'Sirel\\Node\\NotEqual' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/NotEqual.php',
-  'Sirel\\Node\\InsertStatement' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/InsertStatement.php',
-  'Sirel\\Node\\LessThan' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/LessThan.php',
-  'Sirel\\Node\\Like' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Like.php',
-  'Sirel\\Node\\Group' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Group.php',
-  'Sirel\\Node\\SelectStatement' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/SelectStatement.php',
-  'Sirel\\Node\\InValues' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/InValues.php',
-  'Sirel\\Node\\Equal' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Equal.php',
-  'Sirel\\Node\\LessThanEqual' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/LessThanEqual.php',
-  'Sirel\\Node\\NotLike' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/NotLike.php',
-  'Sirel\\Node\\Having' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Having.php',
-  'Sirel\\Node\\Assignment' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Assignment.php',
-  'Sirel\\Node\\UnqualifiedColumn' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/UnqualifiedColumn.php',
-  'Sirel\\Node\\GreaterThanEqual' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/GreaterThanEqual.php',
-  'Sirel\\Node\\Binary' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Binary.php',
-  'Sirel\\Node\\GreaterThan' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/GreaterThan.php',
-  'Sirel\\Node\\AbstractNode' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/AbstractNode.php',
-  'Sirel\\Node\\Limit' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Limit.php',
-  'Sirel\\Node\\NotInValues' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/NotInValues.php',
-  'Sirel\\Node\\Offset' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Offset.php',
-  'Sirel\\Node\\Not' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Not.php',
-  'Sirel\\Node\\Unary' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Unary.php',
-  'Sirel\\Node\\UpdateStatement' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/UpdateStatement.php',
-  'Sirel\\Node\\OrX' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/OrX.php',
-  'Sirel\\Node\\AndX' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/AndX.php',
-  'Sirel\\Node\\Join' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Join.php',
-  'Sirel\\Node\\SqlLiteral' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/SqlLiteral.php',
-  'Sirel\\Node\\Node' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Node.php',
-  'Sirel\\Node\\DeleteStatement' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/DeleteStatement.php',
-  'Sirel\\Node\\Grouping' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Grouping.php',
-  'Sirel\\Node\\JoinSource' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/JoinSource.php',
-  'Sirel\\Node\\Order' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/Order.php',
-  'Sirel\\Node\\On' => __DIR__ . DIRECTORY_SEPARATOR . 'Node/On.php',
-);
-spl_autoload_register(function($class) use ($_map) {
-    if (array_key_exists($class, $_map)) {
-        require_once $_map[$class];
+
+$_classMap = include __DIR__ . "/.classmap.php";
+
+spl_autoload_register(function($class) use ($_classMap) {
+    if (array_key_exists($class, $_classMap)) {
+        require_once $_classMap[$class];
     }
 });
