@@ -48,6 +48,15 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
+    /**
+     * Joins the selected relation with another relation, in the
+     * given mode
+     *
+     * @param  mixed $relation
+     * @param  mixed $expr     ON Expression
+     * @param  int   $mode     Join Mode (INNER, OUTER, LEFT)
+     * @return SelectManager
+     */
     function join($relation, $expr = null, $mode = Join::INNER)
     {
         if (null !== $expr) {
@@ -61,11 +70,17 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
+    /**
+     * Convenience Method for creating INNER JOINs
+     */
     function innerJoin($relation, $expr = null)
     {
         return $this->join($relation, $expr);
     }
 
+    /**
+     * Convenience Method for creating LEFT JOINs
+     */
     function leftJoin($relation, $expr = null)
     {
         return $this->join($relation, $expr, Join::LEFT);
@@ -105,6 +120,14 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
+    /**
+     * Adds an USING Clause to the last Join
+     *
+     * @param mixed $columns,... Either list of columns as first 
+     *                           argument or the columns as multiple arguments
+     *
+     * @return SelectManager
+     */
     function using($columns)
     {
         $lastJoin = $this->getLastJoinSource();
@@ -245,6 +268,12 @@ class SelectManager extends AbstractManager
         return $updateManager;
     }
 
+    /**
+     * Returns the last Join Node
+     *
+     * @throws UnexpectedValueException If no Join Node was found
+     * @return Join
+     */
     protected function getLastJoinSource()
     {
         $lastJoin = current(array_slice($this->nodes->source->right, -1, 1));
