@@ -15,7 +15,9 @@ If you're using the Symfony ClassLoader:
 
 ```php
 <?php
+use Symfony\Component\ClassLoader\UniversalClassLoader;
 
+$classLoader = new UniversalClassLoader;
 $classLoader->registerNamespace('Sirel', YOUR_SIREL_INSTALL_LOCATION);
 ```
 
@@ -51,7 +53,9 @@ The constructor takes one argument: the Table Name.
 
 ```php
 <?php
-$users = new \Sirel\Table("users");
+use Sirel\Table;
+
+$users = new Table("users");
 ```
 
 The Table Instance can additionally be accessed like an Array to get an Instance of an Attribute.
@@ -76,6 +80,7 @@ Example:
 
 ```php
 <?php
+use Sirel\Table;
 
 $profiles = new Table("profiles");
 
@@ -89,12 +94,12 @@ Example:
 
 ```php
 <?php
+use Sirel\Table;
 
 $profiles = new Table("profiles");
 
 echo $profiles->leftJoin($users)->on($profiles['user_id']->eq($users['id']));
-// -> SELECT * FROM profiles LEFT JOIN users ON profiles.user_id =
-users.id
+// -> SELECT * FROM profiles LEFT JOIN users ON profiles.user_id = users.id
 ```
 
 ## Selections
@@ -121,7 +126,10 @@ Examples:
 
 ```php
 <?php
-...
+use Sirel\Table;
+
+$users = new Table("users");
+
 echo $users->where($users['username']->eq("johnny"), $users['password']->eq('superSecretPass'));
 // -> SELECT * FROM users WHERE users.username = 'johnny' AND users.password = 'superSecretPass'
 
