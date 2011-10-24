@@ -458,6 +458,11 @@ class ToSql extends AbstractVisitor
         return "USING " . $this->visit($using->expression);
     }
 
+    protected function visitBoolean($node)
+    {
+        return $node ? 1 : 0;
+    }
+
     protected function visitInteger($node)
     {
         return $node;

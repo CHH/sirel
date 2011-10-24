@@ -44,8 +44,15 @@ class InsertManager extends AbstractManager
      */
     function values(array $values)
     {
-        $cols = array_keys($values);
-        $vals = array_values($values);
+        $cols = array();
+        $vals = array();
+
+        foreach ($values as $col => $val) {
+            if (null !== $val) {
+                $cols[] = $col;
+                $vals[] = $val;
+            }
+        }
 
         foreach ($cols as &$col) {
             $this->nodes->columns[] = new UnqualifiedColumn($col);
