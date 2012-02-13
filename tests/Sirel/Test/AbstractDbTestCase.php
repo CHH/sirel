@@ -211,5 +211,4 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
 
         $this->assertEquals(0, $row['count']);
     }
-
 }
