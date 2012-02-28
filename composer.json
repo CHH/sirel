@@ -5,7 +5,7 @@
     },
     "description": "PHP Query Building DSL.",
     "keywords": [
-        "sql", "databases"
+        "sql", "database"
     ],
     "license": "MIT",
     "homepage": "https://github.com/CHH/Sirel",
@@ -17,8 +17,7 @@
     ],
     "autoload": {
         "psr-0": {
-           "Sirel": "lib/",
-           "Sirel\\Test": "tests/"
+           "Sirel": "lib/"
         }
     }
 }
