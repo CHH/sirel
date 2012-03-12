@@ -1,7 +1,7 @@
 {
     "name": "chh/sirel",
     "require": {
-        "php": ">=5.3.2"
+        "php": ">=5.3.3"
     },
     "description": "PHP Query Building DSL.",
     "keywords": [
