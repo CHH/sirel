@@ -2,17 +2,6 @@
 
 namespace Sirel\Node;
 
-class OrX extends AbstractNode
+class OrX extends AbstractNodeList
 {
-    public $children = array();
-
-    function __construct(array $children)
-    {
-        $this->children = $children;
-    }
-
-    function getChildren()
-    {
-        return $this->children;
-    }
 }

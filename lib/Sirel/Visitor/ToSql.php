@@ -74,7 +74,7 @@ class ToSql extends AbstractVisitor
 
             // OFFSET 
             ($select->offset ? $this->visit($select->offset) : null)
-        )));
+        ))) . ';';
     }
 
     /**
@@ -88,7 +88,7 @@ class ToSql extends AbstractVisitor
         return
             "INSERT INTO " . $this->visit($insert->relation)
             . ' (' . join(', ', $this->visitEach($insert->columns)) . ')'
-            . ' VALUES (' . join(', ', $this->visitEach($insert->values)) . ')';
+            . ' VALUES (' . join(', ', $this->visitEach($insert->values)) . ');';
     }
 
     /**
@@ -118,7 +118,7 @@ class ToSql extends AbstractVisitor
 
             // OFFSET 
             ($delete->offset ? $this->visit($delete->offset) : null)
-        )));
+        ))) . ';';
     }
 
     /**
@@ -152,7 +152,7 @@ class ToSql extends AbstractVisitor
 
             // OFFSET 
             ($update->offset ? $this->visit($update->offset) : null)
-        )));
+        ))) . ';';
     }
 
     /**

@@ -47,7 +47,7 @@ class Table implements \ArrayAccess
     protected $name;
 
     /**
-     * If Enabled throws an Exception when an undefined Attribute is 
+     * If Enabled throws an Exception when an undefined Attribute is
      * accessed. Creates generic Attributes on demand if set to FALSE.
      *
      * Off by Default.
@@ -59,7 +59,7 @@ class Table implements \ArrayAccess
     /**
      * Constructor
      *
-     * @param string $name Table Name 
+     * @param string $name Table Name
      */
     function __construct($name)
     {
@@ -284,8 +284,8 @@ class Table implements \ArrayAccess
 
     /**
      * Define the given Attribute on the Table
-     * 
-     * @param string    $offset 
+     *
+     * @param string    $offset
      * @param Attribute $value
      */
     function offsetSet($offset, $value)

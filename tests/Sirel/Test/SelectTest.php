@@ -22,7 +22,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->where($users['password']->eq('superSecretPass'));
 
         $sqlString = "SELECT * FROM users WHERE users.username = 'johnny'"
-            . " AND users.password = 'superSecretPass'";
+            . " AND users.password = 'superSecretPass';";
 
         $this->assertEquals($sqlString, $query->toSql());
 
@@ -39,7 +39,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $users = $this->users;
         $select = $users->from()->project($users['id'], $users['username']);
 
-        $sqlString = "SELECT users.id, users.username FROM users";
+        $sqlString = "SELECT users.id, users.username FROM users;";
 
         $this->assertEquals($sqlString, $select->toSql());
     }
@@ -53,7 +53,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         );
 
         $sqlString = "SELECT * FROM users WHERE (users.username = 'johnny'"
-            . " OR users.username = 'tom')";
+            . " OR users.username = 'tom');";
         $this->assertEquals($sqlString, $query->toSql());
     }
 
@@ -67,7 +67,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->where($users['id']->eq(1));
 
         $sqlString = "SELECT * FROM users LEFT JOIN profiles"
-            . " ON users.id = profiles.user_id WHERE users.id = 1";
+            . " ON users.id = profiles.user_id WHERE users.id = 1;";
 
         $this->assertEquals($sqlString, $select->toSql());
     }
@@ -81,7 +81,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->join($profiles, $users['id']->eq($profiles['user_id']));
 
         $sqlString = "SELECT * FROM users INNER JOIN profiles"
-            . " ON users.id = profiles.user_id";
+            . " ON users.id = profiles.user_id;";
 
         $this->assertEquals($sqlString, $select->toSql());
     }
@@ -95,7 +95,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->join($profiles, $users['id']->eq($profiles['user_id']));
 
         $sqlString = "SELECT * FROM users INNER JOIN profiles"
-            . " ON users.id = profiles.user_id";
+            . " ON users.id = profiles.user_id;";
 
         $this->assertEquals($sqlString, $select->toSql());
 
@@ -103,7 +103,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             "SELECT * FROM users INNER JOIN profiles" 
-            . " ON profiles.user_id = users.id", 
+            . " ON profiles.user_id = users.id;",
             $select->toSql()
         );
     }
@@ -117,7 +117,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->join($profiles)->on($users['id']->eq($profiles['user_id']));
 
         $sqlString = "SELECT * FROM users INNER JOIN profiles" 
-            . " ON users.id = profiles.user_id";
+            . " ON users.id = profiles.user_id;";
 
         $this->assertEquals($sqlString, $select->toSql());
 
@@ -138,7 +138,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select = $users->project(Sirel::star())
             ->innerJoin($profiles)->natural();
 
-        $sqlString = "SELECT * FROM users NATURAL INNER JOIN profiles"; 
+        $sqlString = "SELECT * FROM users NATURAL INNER JOIN profiles;"; 
 
         $this->assertEquals($sqlString, $select->toSql());
     }
@@ -150,7 +150,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             ->compileUpdate()->set(array('password' => 'updated'));
 
         $sqlString = "UPDATE users SET password = 'updated'"
-            . " WHERE users.username = 'christoph' LIMIT 1";
+            . " WHERE users.username = 'christoph' LIMIT 1;";
 
         $this->assertEquals($sqlString, $update->toSql());
     }

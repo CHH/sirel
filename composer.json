@@ -1,8 +1,5 @@
 {
     "name": "chh/sirel",
-    "require": {
-        "php": ">=5.3.3"
-    },
     "description": "PHP Query Building DSL.",
     "keywords": [
         "sql", "database"
@@ -15,6 +12,12 @@
             "email": "christoph.hochstrasser@gmail.com"
         }
     ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "suggest": {
+        "doctrine/dbal": "For the Sirel\\Visitor\\DoctrinePlatform visitor."
+    },
     "autoload": {
         "psr-0": {
            "Sirel": "lib/"

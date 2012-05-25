@@ -20,6 +20,7 @@ use Sirel\Visitor\Visitor,
 abstract class AbstractManager
 {
     protected $nodes;
+    protected $visitor;
 
     function accept(Visitor $visitor)
     {
@@ -27,7 +28,32 @@ abstract class AbstractManager
     }
 
     /**
-     * Return the SQL if the manager is converted to a string
+     * Sets a visitor to use when converting to String.
+     *
+     * @param Visitor $visitor
+     * @return void
+     */
+    function setVisitor(Visitor $visitor)
+    {
+        $this->visitor = $visitor;
+    }
+
+    /**
+     * Returns the visitor, by default the ToSql visitor.
+     *
+     * @return Visitor
+     */
+    function getVisitor()
+    {
+        if (null === $this->visitor) {
+            $this->visitor = new ToSql;
+        }
+
+        return $this->visitor;
+    }
+
+    /**
+     * Return the SQL if the manager is converted to a string.
      *
      * @alias  toSql()
      * @return string
@@ -37,18 +63,18 @@ abstract class AbstractManager
         try {
             return $this->toSql();
         } catch (\Exception $e) {
+            trigger_error("Exception while invoking visitor: $e", E_USER_WARNING);
             return "";
         }
     }
 
     /**
-     * Triggers the generation of SQL
+     * Triggers the generation of SQL.
      *
      * @return string
      */
     function toSql()
     {
-        $visitor = new ToSql;
-        return $this->accept($visitor);
+        return $this->accept($this->getVisitor());
     }
 }
