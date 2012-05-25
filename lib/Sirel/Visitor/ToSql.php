@@ -467,6 +467,11 @@ class ToSql extends AbstractVisitor
         return "SUM(" . $this->visit($node->getChildren()) . ")";
     }
 
+    function visitSirelNodeFunctionCall(Node\FunctionCall $node)
+    {
+        return $node->name . "(" . $this->visit($node->getArguments()) . ")";
+    }
+
     /**
      * Visits the ON Expression
      *
