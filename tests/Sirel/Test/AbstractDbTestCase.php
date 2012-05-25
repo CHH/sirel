@@ -22,7 +22,8 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
                 username TEXT,
                 password TEXT,
                 created_at TEXT,
-                display_name TEXT
+                display_name TEXT,
+                age INTEGER
             )
         ");
 
@@ -141,7 +142,8 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
                 "username" => "christoph",
                 "password" => "christoph1234",
                 "created_at" => new \DateTime("2011-06-01"),
-                "display_name" => "Christoph Hochstrasser"
+                "display_name" => "Christoph Hochstrasser",
+                "age" => 22
             ))->toSql()
         );
 
@@ -151,7 +153,7 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
             $users->where($users['username']->eq('christoph'))->toSql()
         )->fetch(PDO::FETCH_ASSOC);
 
-        $this->assertEquals(5, count($user));
+        $this->assertEquals(6, count($user));
         $this->assertEquals("christoph", $user['username']);
         $this->assertEquals("2011-06-01 00:00:00", $user['created_at']);
     }
@@ -210,5 +212,45 @@ abstract class AbstractDbTestCase extends \PHPUnit_Extensions_Database_TestCase
         )->fetch();
 
         $this->assertEquals(0, $row['count']);
+    }
+
+    function testCount()
+    {
+        $users = new Table("users");
+        $count = $this->pdo->query($users->project($users->id->count()))->fetchColumn();
+
+        $this->assertEquals(3, $count);
+    }
+
+    function testSum()
+    {
+        $users = new Table("users");
+        $sum = $this->pdo->query(
+            $users->project($users->age->sum())
+        )->fetchColumn();
+
+        $this->assertEquals(23 + 44 + 28, $sum);
+    }
+
+    function testMax()
+    {
+        $users = new Table("users");
+
+        $max = $this->pdo->query(
+            $users->project($users->age->max())
+        )->fetchColumn();
+
+        $this->assertEquals(44, $max);
+    }
+
+    function testMin()
+    {
+        $users = new Table("users");
+
+        $min = $this->pdo->query(
+            $users->project($users->age->min())
+        )->fetchColumn();
+
+        $this->assertEquals(23, $min);
     }
 }

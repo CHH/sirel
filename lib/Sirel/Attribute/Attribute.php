@@ -30,7 +30,8 @@ use Sirel\Node\Equal,
     Sirel\Node\Order,
     Sirel\Node\AndX,
     Sirel\Node\OrX,
-    Sirel\Node\Grouping;
+    Sirel\Node\Grouping,
+    Sirel\Node\Functions;
 
 class Attribute
 {
@@ -162,5 +163,25 @@ class Attribute
     function desc()
     {
         return new Order($this, Order::DESC);
+    }
+
+    function count()
+    {
+        return new Functions\Count(array($this));
+    }
+
+    function sum()
+    {
+        return new Functions\Sum(array($this));
+    }
+
+    function min()
+    {
+        return new Functions\Min(array($this));
+    }
+
+    function max()
+    {
+        return new Functions\Max(array($this));
     }
 }

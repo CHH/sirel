@@ -1,4 +1,4 @@
 <?php
 
-$classLoader = require(__DIR__.'/../vendor/.composer/autoload.php');
-$classLoader->register("Sirel\\Test", __DIR__);
+$classLoader = require(__DIR__.'/../vendor/autoload.php');
+$classLoader->add("Sirel\\Test", __DIR__);

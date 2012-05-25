@@ -135,7 +135,7 @@ class ToSql extends AbstractVisitor
 
             // SET
             "SET " . join(', ', $this->visitEach($update->values)),
-            
+
             // WHERE
             ($update->restrictions 
                 ? "WHERE " . join(" AND ", $this->visitEach($update->restrictions))
@@ -249,7 +249,7 @@ class ToSql extends AbstractVisitor
      */
     protected function visitSirelNodeAssignment(Node\Assignment $assign)
     {
-        return $this->visit($assign->getLeft()) 
+        return $this->visit($assign->getLeft())
             . " = " . $this->visit($assign->getRight());
     }
 
@@ -299,8 +299,8 @@ class ToSql extends AbstractVisitor
 
     protected function visitSirelNodeInValues(Node\InValues $in)
     {
-        return $this->visit($in->getLeft()) 
-            . " IN (" 
+        return $this->visit($in->getLeft())
+            . " IN ("
             . $this->visit($in->getRight())
             . ')';
     }
@@ -311,6 +311,11 @@ class ToSql extends AbstractVisitor
             . " NOT IN ("
             . $this->visit($notIn->getRight())
             . ')';
+    }
+
+    protected function visitSirelNodeNot(Node\Not $not)
+    {
+        return "NOT(" . $this->visit($not->getExpression()) . ")";
     }
 
     /**
@@ -400,8 +405,8 @@ class ToSql extends AbstractVisitor
     {
         $right = $joinSource->getRight();
 
-        return 
-            "FROM " 
+        return
+            "FROM "
             . $this->visit($joinSource->getLeft())
             . ($right ? ' ' . join(' ', $this->visitEach($right)) : null);
     }
@@ -440,6 +445,26 @@ class ToSql extends AbstractVisitor
             . "JOIN "
             . $this->visit($join->left)
             . ($join->right ? ' ' . $this->visit($join->right) : '');
+    }
+
+    function visitSirelNodeFunctionsCount(Node\Functions\Count $node)
+    {
+        return "COUNT(" . $this->visit($node->getChildren()) . ")";
+    }
+
+    function visitSirelNodeFunctionsMax(Node\Functions\Max $node)
+    {
+        return "MAX(" . $this->visit($node->getChildren()) . ")";
+    }
+
+    function visitSirelNodeFunctionsMin(Node\Functions\Min $node)
+    {
+        return "MIN(" . $this->visit($node->getChildren()) . ")";
+    }
+
+    function visitSirelNodeFunctionsSum(Node\Functions\Sum $node)
+    {
+        return "SUM(" . $this->visit($node->getChildren()) . ")";
     }
 
     /**

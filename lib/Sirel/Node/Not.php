@@ -2,6 +2,6 @@
 
 namespace Sirel\Node;
 
-class Not extends Binary
+class Not extends Unary
 {
 }

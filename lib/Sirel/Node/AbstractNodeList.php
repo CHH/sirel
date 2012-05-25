@@ -6,7 +6,7 @@ abstract class AbstractNodeList extends AbstractNode
 {
     public $children = array();
 
-    function __construct(array $children)
+    function __construct(array $children = array())
     {
         $this->children = $children;
     }
