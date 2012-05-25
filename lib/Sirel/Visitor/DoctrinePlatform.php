@@ -57,7 +57,7 @@ class DoctrinePlatform extends ToSql
     {
         $query = join(' ', array_filter(array(
             "DELETE FROM " . $this->visit($delete->relation),
-            
+
             // WHERE
             ($delete->restrictions
                 ? "WHERE " . join(" AND ", $this->visitEach($delete->restrictions))
@@ -74,5 +74,30 @@ class DoctrinePlatform extends ToSql
         $query .= ';';
 
         return $query;
+    }
+
+    function visitDateTime(\DateTime $date)
+    {
+        return $date->format($this->platform->getDateTimeFormatString());
+    }
+
+    function visitSirelNodeFunctionsCount(Node\Functions\Count $node)
+    {
+        return $this->platform->getCountExpression($this->visit($node->getChildren()));
+    }
+
+    function visitSirelNodeFunctionsMax(Node\Functions\Max $node)
+    {
+        return $this->platform->getMaxExpression($this->visit($node->getChildren()));
+    }
+
+    function visitSirelNodeFunctionsMin(Node\Functions\Min $node)
+    {
+        return $this->platform->getMinExpression($this->visit($node->getChildren()));
+    }
+
+    function visitSirelNodeFunctionsSum(Node\Functions\Sum $node)
+    {
+        return $this->platform->getSumExpression($this->visit($node->getChildren()));
     }
 }
