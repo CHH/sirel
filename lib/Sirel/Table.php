@@ -19,6 +19,7 @@ use BadMethodCallException,
     UnexpectedValueException,
     InvalidArgumentException,
     Sirel\Node\SqlLiteral,
+    Sirel\Node\Not,
     Sirel\Attribute\Attribute;
 
 /**
@@ -238,6 +239,11 @@ class Table implements \ArrayAccess
     function getAttributes()
     {
         return $this->attributes;
+    }
+
+    function not($expr)
+    {
+        return new Not($expr);
     }
 
     /**

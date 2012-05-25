@@ -26,7 +26,6 @@ use Sirel\Node\Equal,
     Sirel\Node\NotLike,
     Sirel\Node\InValues,
     Sirel\Node\NotInValues,
-    Sirel\Node\Not,
     Sirel\Node\Order,
     Sirel\Node\AndX,
     Sirel\Node\OrX,
@@ -72,19 +71,6 @@ class Attribute
      * Relation this attribute belongs to
      * @return Table|string
      */
-/**
- * Calls the supplied callback if a Node is visited
- *
- * This source file is subject to the MIT license that is bundled
- * with this package in the file LICENSE.txt.
- *
- * @category   Sirel
- * @package    Sirel
- * @subpackage Visitor
- * @author     Christoph Hochstrasser <christoph.hochstrasser@gmail.com>
- * @copyright  Copyright (c) Christoph Hochstrasser
- * @license    MIT License
- */
     function getRelation()
     {
         return $this->relation;

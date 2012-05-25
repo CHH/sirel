@@ -42,7 +42,7 @@ Now let's dive into a bird's eye overview of the things that work ;-).
 The core of Sirel's Query Building API is the __Table__. The Table Object provides convenient
 access to attributes and Factory Methods for Queries.
 
-You may call this methods on the Table Instance to start building a new query:
+You may call these methods on the Table Instance to start building a new query:
 
  * `from`, `project`, `join`, `where`, `order`, `group`, `take` or `skip` to start building a __Select Query__
  * `insert` to start building an __Insert Query__

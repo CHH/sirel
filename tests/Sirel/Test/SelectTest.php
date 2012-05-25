@@ -154,4 +154,14 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($sqlString, $update->toSql());
     }
+
+    function testNot()
+    {
+        $users = $this->users;
+
+        $select = $users->where($users->not($users->username));
+        $sqlString = "SELECT * FROM users WHERE NOT(users.username);";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
 }

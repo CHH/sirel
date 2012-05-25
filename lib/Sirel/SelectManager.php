@@ -174,14 +174,9 @@ class SelectManager extends AbstractManager
      * @param  Node $expr,...
      * @return SelectManager
      */
-    function where(Node $expr)
+    function where($expr)
     {
         foreach (func_get_args() as $expr) {
-            if (!$expr instanceof Node) {
-                throw new \InvalidArgumentException(
-                    "Not an instance of Node given as Restriction"
-                );
-            }
             $this->nodes->restrictions[] = $expr;
         }
         return $this;
