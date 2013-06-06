@@ -1,11 +1,11 @@
 {
     "name": "chh/sirel",
-    "description": "PHP Query Building DSL.",
+    "description": "Flexible SQL builder which builds an Abstract Syntax Tree of SQL and dumps it.",
     "keywords": [
         "sql", "database"
     ],
     "license": "MIT",
-    "homepage": "https://github.com/CHH/Sirel",
+    "homepage": "https://github.com/CHH/sirel",
     "authors": [
         {
             "name": "Christoph Hochstrasser",
