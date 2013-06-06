@@ -28,5 +28,10 @@
         "psr-0": {
            "Sirel": "lib/"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }
