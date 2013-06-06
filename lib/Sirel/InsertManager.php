@@ -27,10 +27,10 @@ class InsertManager extends AbstractManager
     /**
      * Insert into this relation
      *
-     * @param  Table $relation
+     * @param  $relation
      * @return InsertManager
      */
-    function into(Table $relation)
+    function into($relation)
     {
         $this->nodes->relation = $relation;
         return $this;
