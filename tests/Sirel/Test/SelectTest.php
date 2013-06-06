@@ -155,6 +155,16 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $update->toSql());
     }
 
+    function testCompileDeleteFromSelect()
+    {
+        $users = $u = $this->users;
+        $select = $users->take(1)->where($u->username->eq("christoph"));
+        $delete = $select->compileDelete();
+
+        $sqlString = "DELETE FROM users WHERE users.username = 'christoph' LIMIT 1;";
+        $this->assertEquals($sqlString, $delete->toSql());
+    }
+
     function testNot()
     {
         $users = $this->users;

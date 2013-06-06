@@ -267,6 +267,28 @@ class SelectManager extends AbstractManager
         return $updateManager;
     }
 
+    function compileDelete()
+    {
+        $deleteManager = new DeleteManager;
+        $deleteManager->from($this->nodes->source->getLeft());
+
+        foreach ($this->nodes->restrictions as $expr) {
+            $deleteManager->where($expr);
+        }
+
+        foreach ($this->nodes->orders as $order) {
+            $deleteManager->order($order);
+        }
+
+        empty($this->nodes->limit) ?:
+            $deleteManager->take($this->nodes->limit->getExpression());
+
+        empty($this->nodes->offset) ?:
+            $deleteManager->skip($this->nodes->offset->getExpression());
+
+        return $deleteManager;
+    }
+
     /**
      * Returns the last Join Node
      *
