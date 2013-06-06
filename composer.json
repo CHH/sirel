@@ -13,10 +13,13 @@
         }
     ],
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.4.0"
     },
     "require-dev": {
-        "doctrine/dbal": "2.*@stable"
+        "doctrine/dbal": "2.*@stable",
+        "phpunit/phpunit": "~3.7",
+        "phpunit/dbunit": "~1.2",
+        "chh/bob": "~1.0@dev"
     },
     "suggest": {
         "doctrine/dbal": "For the Sirel\\Visitor\\DoctrinePlatform visitor."

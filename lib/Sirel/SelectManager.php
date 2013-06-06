@@ -137,7 +137,7 @@ class SelectManager extends AbstractManager
             return $this;
         }
 
-        $columns  = is_array($columns) ? $columns : func_get_args();
+        $columns = is_array($columns) ? $columns : func_get_args();
 
         if ($lastJoin->right instanceof Using) {
             $lastJoin->right->expression = array_merge(
@@ -158,6 +158,10 @@ class SelectManager extends AbstractManager
      */
     function project($projections)
     {
+        if (func_get_args() === 1) {
+            $projections = (array) $projections;
+        }
+
         if (!is_array($projections)) {
             $projections = func_get_args();
         }

@@ -7,6 +7,8 @@ namespace Sirel\Node;
  */
 abstract class Binary extends AbstractNode
 {
+    use \Sirel\Conjunctions;
+
     /**
      * @var string
      */
@@ -31,15 +33,5 @@ abstract class Binary extends AbstractNode
     function getRight()
     {
         return $this->right;
-    }
-
-    function _and(\Sirel\Node\Node $otherNode)
-    {
-        return new AndX(array($this, $otherNode));
-    }
-
-    function _or(\Sirel\Node\Node $otherNode)
-    {
-        return new Grouping(new OrX(array($this, $otherNode)));
     }
 }

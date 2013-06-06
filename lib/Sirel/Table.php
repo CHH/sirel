@@ -280,7 +280,6 @@ class Table implements \ArrayAccess
             if ($this->strictScheme) {
                 throw new UnexpectedValueException(
                     "Strict Scheme: Attribute $offset is not defined."
-                    . " Please define it before accessing it."
                 );
             }
             $this->attributes[$offset] = new Attribute($offset, $this);

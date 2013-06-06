@@ -16,10 +16,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     function testSelect()
     {
-        $users = $this->users;
+        $users = $u = $this->users;
         $query = $users
-            ->where($users['username']->eq('johnny'))
-            ->where($users['password']->eq('superSecretPass'));
+            ->where($u->username->eq('johnny'))
+            ->where($u->password->eq('superSecretPass'));
 
         $sqlString = "SELECT * FROM users WHERE users.username = 'johnny'"
             . " AND users.password = 'superSecretPass';";
@@ -27,8 +27,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $query->toSql());
 
         $query = $users->where(
-            $users['username']->eq('johnny'),
-            $users['password']->eq('superSecretPass')
+            $u->username->eq('johnny'),
+            $u->password->eq('superSecretPass')
         );
 
         $this->assertEquals($sqlString, $query->toSql());
@@ -46,10 +46,10 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     function testOr()
     {
-        $users = $this->users;
+        $users = $u = $this->users;
         $query = $users->where(
-            $users['username']->eq('johnny')
-            ->_or($users['username']->eq('tom'))
+            $u['username']->eq('johnny')
+            ->_or($u['username']->eq('tom'))
         );
 
         $sqlString = "SELECT * FROM users WHERE (users.username = 'johnny'"
@@ -59,12 +59,12 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
     function testLeftJoin()
     {
-        $users = $this->users;
-        $profiles = new Table("profiles");
+        $users = $u = $this->users;
+        $profiles = $p = new Table("profiles");
 
         $select = $users->project(Sirel::star())
-            ->leftJoin($profiles)->on($users['id']->eq($profiles['user_id']))
-            ->where($users['id']->eq(1));
+            ->leftJoin($profiles)->on($u['id']->eq($p['user_id']))
+            ->where($u['id']->eq(1));
 
         $sqlString = "SELECT * FROM users LEFT JOIN profiles"
             . " ON users.id = profiles.user_id WHERE users.id = 1;";
@@ -122,7 +122,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $select->toSql());
 
         $this->assertEquals(
-            $sqlString, 
+            $sqlString,
             $users
                 ->project(Sirel::star())
                 ->innerJoin($profiles, $users['id']->eq($profiles['user_id']))
@@ -159,7 +159,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     {
         $users = $this->users;
 
-        $select = $users->where($users->not($users->username));
+        $select = $users->where($users->username->not());
         $sqlString = "SELECT * FROM users WHERE NOT(users.username);";
 
         $this->assertEquals($sqlString, $select->toSql());

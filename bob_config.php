@@ -1,6 +1,6 @@
 <?php
 
-namespace Bob;
+namespace Bob\BuildConfig;
 
 task('default', array('test'));
 
