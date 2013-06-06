@@ -22,6 +22,15 @@ abstract class AbstractManager
     protected $nodes;
     protected $visitor;
 
+    function __clone()
+    {
+        $this->nodes = clone $this->nodes;
+
+        if (null !== $this->visitor) {
+            $this->visitor = clone $this->visitor;
+        }
+    }
+
     function accept(Visitor $visitor)
     {
         return $this->nodes->accept($visitor);

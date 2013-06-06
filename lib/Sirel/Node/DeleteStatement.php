@@ -31,4 +31,19 @@ class DeleteStatement extends AbstractNode
      * @var Limit
      */
     public $limit;
+
+    function __clone()
+    {
+        if (is_object($this->relation)) {
+            $this->relation = clone $this->relation;
+        }
+
+        if (null !== $this->offset) {
+            $this->offset = clone $this->offset;
+        }
+
+        if (null !== $this->limit) {
+            $this->limit = clone $this->limit;
+        }
+    }
 }

@@ -35,4 +35,27 @@ class SelectStatement extends AbstractNode
      * @var Offset
      */
     public $offset;
+
+    function __clone()
+    {
+        $this->projections = array_map(function($p) {
+            if (is_object($p)) {
+                return clone $p;
+            } else {
+                return $p;
+            }
+        }, $this->projections);
+
+        if (null !== $this->source) {
+            $this->source = clone $this->source;
+        }
+
+        if (null !== $this->limit) {
+            $this->limit = clone $this->limit;
+        }
+
+        if (null !== $this->offset) {
+            $this->offset = clone $this->offset;
+        }
+    }
 }

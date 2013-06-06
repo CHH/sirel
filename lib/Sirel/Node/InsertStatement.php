@@ -32,4 +32,15 @@ class InsertStatement extends AbstractNode
      * @var Sirel\SelectManager
      */
     public $select;
+
+    function __clone()
+    {
+        if (is_object($this->relation)) {
+            $this->relation = clone $this->relation;
+        }
+
+        if (null !== $this->select) {
+            $this->select = clone $this->select;
+        }
+    }
 }
