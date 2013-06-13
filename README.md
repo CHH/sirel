@@ -136,7 +136,7 @@ echo $users->where($users['username']->eq("johnny"), $users['password']->eq('sup
 echo $users->where($users['username']->like('a%'));
 // -> SELECT * FROM users WHERE users.username LIKE 'a%'
 
-echo $users->where($users['id']->in(array(3, 4, 10)));
+echo $users->where($users['id']->in([3, 4, 10]));
 // -> SELECT * FROM users WHERE users.id IN (3, 4, 10)
 ```
 
@@ -164,10 +164,10 @@ Use `reorder` to clear all current order operations:
 ```php
 <?php
 
-$users->order($users->username->asc())->order($users->id->asc());
+$select = $users->order($users->username->asc())->order($users->id->asc());
 
 // Not let's reorder:
-echo $users->order($users->id->desc());
+echo $select->reorder($users->id->desc());
 // -> SELECT * FROM users ORDER BY users.id DESC;
 ```
 
@@ -176,9 +176,9 @@ You can reverse the existing order with `->reverseOrder()`:
 ```php
 <?php
 
-$users->order($users->username->asc());
+$select = $users->order($users->username->asc());
 
-echo $users->reverseOrder();
+echo $select->reverseOrder();
 // -> SELECT * FROM users ORDER BY users.username DESC;
 ```
 
@@ -188,9 +188,9 @@ to `->reverseOrder()`:
 ```php
 <?php
 
-$users->order($users->username->asc())->order($users->id->desc());
+$select = $users->order($users->username->asc())->order($users->id->desc());
 
-echo $users->reverseOrder([$users->id]);
+echo $select->reverseOrder([$users->id]);
 // -> SELECT * FROM users ORDER BY users.username ASC, users.id ASC;
 ```
 
@@ -227,45 +227,3 @@ $query->project($users['username']);
 echo $query;
 // -> SELECT users.id, users.username FROM users WHERE users.username = 'johnny' AND users.password = 'foo' LIMIT 1
 ```
-
-## Advanced Features
-
-### Strong Typed Attributes
-
-The Table Object can also be initialized with a set of stronger typed attributes to 
-define the Table's Scheme.
-This is done by calling `addAttribute` with an Instance of the desired Attribute. 
-
-Sirel provides these Attribute Types:
-
- * BooleanAttribute
- * DecimalAttribute
- * FloatAttribute
- * IntegerAttribute
- * StringAttribute
- * TimeAttribute
- * UndefinedAttribute
-
-```php
-<?php
-...
-$users
-    ->addAttribute(new \Sirel\Attribute\IntegerAttribute("id"))
-    ->addAttribute(new \Sirel\Attribute\StringAttribute("username"))
-    ->addAttribute(new \Sirel\Attribute\StringAttribute("password"));
-```
-
-In Addition to that, you will want to turn the "Strict Scheme" Mode of
-the Table on, to throw an Exception if an Attribute was not defined prior
-to accessing it.
-
-```php
-<?php
-
-$users->setStrictScheme(true);
-
-$users['birth_date'];
-// This will throw an UnexpectedValueException, because 'birth_date' was
-// not defined beforehand
-```
-

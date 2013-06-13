@@ -187,6 +187,13 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
+    /**
+     * Override all previous order clauses with a new one.
+     *
+     * @see order()
+     * @param mixed $expr
+     * @param int $direction
+     */
     function reorder($expr, $direction = null)
     {
         $this->order(null);
@@ -209,16 +216,23 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
-    function reverseOrder(array $attribute = null)
+    /**
+     * Reverses the order of all order clauses
+     *
+     * @param array $attributes Optional list of attributes which should 
+     * be reversed
+     * @return SelectManager
+     */
+    function reverseOrder(array $attributes = null)
     {
-        if ($attribute !== null) {
-            $attribute = array_map('strval', $attribute);
+        if ($attributes !== null) {
+            $attributes = array_map('strval', $attributes);
 
-            $orders = array_filter($this->nodes->orders, function($o) use ($attribute) {
+            $orders = array_filter($this->nodes->orders, function($o) use ($attributes) {
                 $expr = $o->getExpression();
                 $name = (string) $expr;
 
-                return in_array($name, $attribute);
+                return in_array($name, $attributes);
             });
         } else {
             $orders = $this->nodes->orders;
