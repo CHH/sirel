@@ -16,6 +16,8 @@ namespace Sirel;
 
 class UpdateManager extends AbstractManager
 {
+    use Selections;
+
     function __construct()
     {
         $this->nodes = new Node\UpdateStatement;
@@ -47,54 +49,6 @@ class UpdateManager extends AbstractManager
         });
 
         $this->nodes->values = $values;
-        return $this;
-    }
-
-    /**
-     * Adds an Expression to the WHERE clause
-     *
-     * @param  Node $expr
-     * @return UpdateManager
-     */
-    function where($expr)
-    {
-        foreach (func_get_args() as $expr) {
-            if (!$expr instanceof Node\Node) {
-                throw new \InvalidArgumentException("Argument is not an Instance of Node");
-            }
-            $this->nodes->restrictions[] = $expr;
-        }
-        return $this;
-    }
-
-    /**
-     * Adds an Order Expression
-     *
-     * @param  Node|Attribute $expr
-     * @param  int            $direction
-     * @return UpdateManager
-     */
-    function order($expr, $direction = Node\Order::ASC)
-    {
-        if (null === $expr) {
-            $this->nodes->orders = array();
-        } else if ($expr instanceof Node\Order) {
-            $this->nodes->orders[] = $expr;
-        } else {
-            $this->nodes->orders[] = new Node\Order($expr, $direction);
-        }
-        return $this;
-    }
-
-    function take($numRows)
-    {
-        $this->nodes->limit = new Node\Limit($numRows);
-        return $this;
-    }
-
-    function skip($numRows)
-    {
-        $this->nodes->offset = new Node\Offset($numRows);
         return $this;
     }
 }

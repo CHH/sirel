@@ -17,7 +17,7 @@ namespace Sirel;
 use Sirel\Visitor\Visitor,
     Sirel\Visitor\ToSql;
 
-abstract class AbstractManager
+abstract class AbstractManager implements Manager
 {
     protected $nodes;
     protected $visitor;
@@ -29,6 +29,11 @@ abstract class AbstractManager
         if (null !== $this->visitor) {
             $this->visitor = clone $this->visitor;
         }
+    }
+    
+    function getNodes()
+    {
+        return $this->nodes;
     }
 
     function accept(Visitor $visitor)
