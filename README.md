@@ -227,3 +227,111 @@ $query->project($users['username']);
 echo $query;
 // -> SELECT users.id, users.username FROM users WHERE users.username = 'johnny' AND users.password = 'foo' LIMIT 1
 ```
+
+## Insert
+
+Get an insert query manager by calling `->insert()` on the table, or
+constructing a new `Sirel\InsertManager`:
+
+```php
+<?php
+
+$insert = $users->insert();
+// is equivalent to
+$insert = new Sirel\InsertManager;
+$insert->into($users);
+```
+
+You can set a list of column-value pairs with the `->values()` method:
+
+```php
+<?php
+
+$insert->values([
+    'username' => 'jon',
+    'first_name' => 'John',
+    'last_name' => 'Doe'
+]);
+
+echo $insert->toSql();
+// -> INSERT INTO users (users.username, users.first_name, users.last_name) VALUES ('jon', 'John', 'Doe');
+```
+
+## Update
+
+Update queries can be created with the table's `->update()` method.
+Values can be set with the `->set()` method.
+
+Update queries feature most of the methods of Select queries, which work the same as their Select counterparts:
+
+* `where`
+* `take`
+* `skip`
+* `order`
+
+__Note:__ If you create an `Sirel\UpdateManager` instance, you need to set the
+table with the `->table()` method.
+
+```php
+<?php
+
+$update = $users->update();
+$update->where($users->id->eq(1))->set('last_name' => 'Foobar');
+
+echo $update->toSql();
+// -> UPDATE users SET users.last_name = 'Foobar' WHERE users.id = '1';
+```
+
+You can also compile an Update query from an existing Select query with
+`->compileUpdate()`:
+
+```php
+<?php
+
+$select = $users->where($users->first_name->eq("James"))
+    ->where($users->last_name->eq("Kirk"))
+    ->take(1);
+
+$update = $select->compileUpdate()->set(['first_name' => 'Jim']);
+
+echo $update->toSql();
+// -> UPDATE users SET users.first_name = 'Jim' WHERE users.first_name = 'James' AND users.last_name = 'Kirk' LIMIT 1;
+```
+
+## Delete
+
+Delete queries can be created by calling the table's `->delete()`
+method.
+
+Delete queries understand these operations, which work exactly the same
+as their Select counterparts:
+
+* `from`
+* `where` 
+* `take`
+* `skip`
+* `order`
+
+```php
+<?php
+
+$delete = $users->delete()
+    ->take(1)
+    ->where($users->id->eq(1));
+
+echo $delete->toSql();
+// -> DELETE FROM users WHERE users.id = '1' LIMIT 1;
+```
+
+You can also compile an existing Select query to a Delete query:
+
+```php
+<?php
+
+$select = $users->where($users->activated->eq(0))->take(10);
+
+$delete = $select->compileDelete();
+
+echo $delete->toSql();
+// -> DELETE FROM users WHERE users.activated = '0' LIMIT 10;
+```
