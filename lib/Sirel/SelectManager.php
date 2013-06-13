@@ -209,18 +209,14 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
-    function reverseOrder($attribute = null)
+    function reverseOrder(array $attribute = null)
     {
         if ($attribute !== null) {
-            $attribute = (array) $attribute;
+            $attribute = array_map('strval', $attribute);
 
             $orders = array_filter($this->nodes->orders, function($o) use ($attribute) {
                 $expr = $o->getExpression();
-                if ($expr instanceof Attribute) {
-                    $name = $expr->getName();
-                } else {
-                    $name = (string) $expr;
-                }
+                $name = (string) $expr;
 
                 return in_array($name, $attribute);
             });

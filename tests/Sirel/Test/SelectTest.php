@@ -193,7 +193,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select = $users->order($u->username->desc())
             ->order($u->id->asc());
 
-        $select->reverseOrder('id');
+        $select->reverseOrder([$u->id]);
         $sqlString = "SELECT * FROM users ORDER BY users.username DESC, users.id DESC;";
 
         $this->assertEquals($sqlString, $select->toSql());

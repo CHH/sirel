@@ -159,10 +159,44 @@ echo $users->order($users['username'], \Sirel\Node\Order::DESC);
 // -> SELECT * FROM users ORDER BY users.username DESC
 ```
 
+Use `reorder` to clear all current order operations:
+
+```php
+<?php
+
+$users->order($users->username->asc())->order($users->id->asc());
+
+// Not let's reorder:
+echo $users->order($users->id->desc());
+// -> SELECT * FROM users ORDER BY users.id DESC;
+```
+
+You can reverse the existing order with `->reverseOrder()`:
+
+```php
+<?php
+
+$users->order($users->username->asc());
+
+echo $users->reverseOrder();
+// -> SELECT * FROM users ORDER BY users.username DESC;
+```
+
+Reverse only the order of some attributes by passing a list of attributes
+to `->reverseOrder()`:
+
+```php
+<?php
+
+$users->order($users->username->asc())->order($users->id->desc());
+
+echo $users->reverseOrder([$users->id]);
+// -> SELECT * FROM users ORDER BY users.username ASC, users.id ASC;
+```
+
 ## Limit & Offset
 
-Limit and Offset correspond to the `take` and `skip` Operators. These take the amount of rows
-as their sole argument.
+Limit and Offset correspond to the `take` and `skip` Operators. These take the amount of rows as their sole argument.
 
 ```php
 <?php
