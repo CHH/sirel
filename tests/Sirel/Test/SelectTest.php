@@ -174,4 +174,40 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($sqlString, $select->toSql());
     }
+
+    function testReverseOrder()
+    {
+        $users = $u = $this->users;
+
+        $select = $users->order($u->username->desc());
+        $select->reverseOrder();
+        $sqlString = "SELECT * FROM users ORDER BY users.username ASC;";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
+
+    function testReverseOrderOnlyOnSelectedField()
+    {
+        $users = $u = $this->users;
+
+        $select = $users->order($u->username->desc())
+            ->order($u->id->asc());
+
+        $select->reverseOrder('id');
+        $sqlString = "SELECT * FROM users ORDER BY users.username DESC, users.id DESC;";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
+
+    function testReorder()
+    {
+        $users = $u = $this->users;
+
+        $select = $users->order($u->username->desc());
+        $select->reorder($users->id->desc());
+
+        $sqlString = "SELECT * FROM users ORDER BY users.id DESC;";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
 }

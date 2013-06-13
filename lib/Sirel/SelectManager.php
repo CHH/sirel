@@ -28,7 +28,8 @@ use UnexpectedValueException,
     Sirel\Node\Offset,
     Sirel\Node\Limit,
     Sirel\Visitor\Visitor,
-    Sirel\Visitor\ToSql;
+    Sirel\Visitor\ToSql,
+    Sirel\Attribute\Attribute;
 
 class SelectManager extends AbstractManager
 {
@@ -186,6 +187,14 @@ class SelectManager extends AbstractManager
         return $this;
     }
 
+    function reorder($expr, $direction = null)
+    {
+        $this->order(null);
+        $this->order($expr, $direction);
+
+        return $this;
+    }
+
     function order($expr, $direction = null)
     {
         if (null === $expr) {
@@ -197,6 +206,32 @@ class SelectManager extends AbstractManager
         } else {
             $this->nodes->orders[] = new Order($expr, $direction);
         }
+        return $this;
+    }
+
+    function reverseOrder($attribute = null)
+    {
+        if ($attribute !== null) {
+            $attribute = (array) $attribute;
+
+            $orders = array_filter($this->nodes->orders, function($o) use ($attribute) {
+                $expr = $o->getExpression();
+                if ($expr instanceof Attribute) {
+                    $name = $expr->getName();
+                } else {
+                    $name = (string) $expr;
+                }
+
+                return in_array($name, $attribute);
+            });
+        } else {
+            $orders = $this->nodes->orders;
+        }
+
+        foreach ($orders as $order) {
+            $order->reverse();
+        }
+
         return $this;
     }
 

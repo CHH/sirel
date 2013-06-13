@@ -35,4 +35,13 @@ class Order extends Binary
     {
         return self::DESC === $this->getDirection();
     }
+
+    function reverse()
+    {
+        if ($this->isAscending()) {
+            $this->right = static::DESC;
+        } else if ($this->isDescending()) {
+            $this->right = static::ASC;
+        }
+    }
 }
