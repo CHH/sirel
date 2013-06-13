@@ -1,28 +1,24 @@
 Sirel -- A Simple Relational Algebra for PHP
 ============================================
 
-Sirel is a representation of the Relational Algebra (think SQL) in PHP. 
+Sirel is a representation of the SQL Abstract Syntax Tree in PHP. 
+
 Sirel aims to be to PHP what [Arel](https://github.com/rails/arel) is for Ruby.
-Sirel uses __Namespaces__ and follows the 
-[PSR-0 Standard](http://groups.google.com/group/php-standards/web/psr-0-final-proposal?pli=1), therefore at least **PHP 5.3** is **required**.
 
 ## Install
 
-Copy the contents of the `lib` folder into your Project and set up
-Autoloading for the `Sirel` Namespace.
+Requirements:
 
-If you're using the Symfony ClassLoader:
+* PHP 5.4
+* Optional: `doctrine/dbal` for wider Database support
 
-```php
-<?php
-use Symfony\Component\ClassLoader\UniversalClassLoader;
+Install with [Composer][]:
 
-$classLoader = new UniversalClassLoader;
-$classLoader->registerNamespace('Sirel', YOUR_SIREL_INSTALL_LOCATION);
-```
+    php composer.phar require 'chh/sirel:1.0.*@dev'
 
-Alternatively you can also use the supplied lib/Sirel/\_autoload.php,
-which provides a Class Map based Autoloader.
+Then require `vendor/autoload.php` in your app.
+
+[Composer]: http://getcomposer.org
 
 * * *
 
@@ -33,9 +29,40 @@ still have to be ironed out:
    SQLite's SQL, so may also work with MySQL though.
  * __No__ Generation of DBMS-specific SQL (will likely come as 
    Doctrine DBAL-enabled Visitor)
- * No Escaping
+ * Only DML (use [Doctrine DBAL][] if you want to run database
+   independent DDL)
 
 Now let's dive into a bird's eye overview of the things that work ;-).
+
+[Doctrine DBAL]: http://github.com/doctrine/dbal
+
+## Frequently Asked Questions
+
+> How do I protect myself from SQL injection when using Sirel?
+
+I recommend using Prepared Statements. Make sure you mark
+placeholders as raw SQL with `Sirel::sql()`.
+
+Example using PDO:
+
+```php
+<?php
+
+use Sirel\Sirel;
+use Sirel\Table;
+
+$users = $u = new Table("users");
+$select = $users->take(1)->where($u->id->eq(Sirel::sql(':id')));
+
+$connSpec = "…";
+$pdo = new \PDO($connSpec);
+
+$stmt = $pdo->prepare($select->toSql());
+$stmt->bindParam(':id', $_GET['id']);
+$stmt->execute();
+
+$user = $stmt->fetch();
+```
 
 ## Relations
 
