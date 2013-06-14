@@ -510,7 +510,7 @@ class ToSql extends AbstractVisitor
 
     protected function visitArray(array $node)
     {
-        return join(', ', $node);
+        return join(', ', array_map([$this, "visit"], $node));
     }
 
     protected function visitArrayObject(\ArrayObject $node)
