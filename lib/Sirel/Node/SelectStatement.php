@@ -36,6 +36,11 @@ class SelectStatement extends AbstractNode
      */
     public $offset;
 
+    /**
+     * @var Distinct
+     */
+    public $distinct;
+
     function __clone()
     {
         $this->projections = array_map(function($p) {
@@ -56,6 +61,10 @@ class SelectStatement extends AbstractNode
 
         if (null !== $this->offset) {
             $this->offset = clone $this->offset;
+        }
+
+        if (null !== $this->distinct) {
+            $this->distinct = clone $this->distinct;
         }
     }
 }

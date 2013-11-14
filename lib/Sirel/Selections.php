@@ -5,6 +5,7 @@ namespace Sirel;
 use Sirel\Node\Limit;
 use Sirel\Node\Order;
 use Sirel\Node\Offset;
+use Sirel\Node\Distinct;
 
 trait Selections
 {
@@ -105,6 +106,17 @@ trait Selections
     function skip($numRows)
     {
         $this->getNodes()->offset = $numRows !== null ? new Offset($numRows) : null;
+        return $this;
+    }
+
+    /**
+     * Adds a Distinct keyword
+     *
+     * @return SelectManager
+     */
+    function distinct()
+    {
+        $this->getNodes()->distinct = new Distinct();
         return $this;
     }
 }

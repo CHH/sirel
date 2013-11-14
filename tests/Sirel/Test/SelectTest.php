@@ -34,6 +34,16 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $query->toSql());
     }
 
+    function testSelectDistinct()
+    {
+        $users = $this->users;
+        $select = $users->from()->project($users['username'])->distinct();
+
+        $sqlString = "SELECT DISTINCT users.username FROM users;";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
+
     function testPassProjectionsAsMultipleArguments()
     {
         $users = $this->users;

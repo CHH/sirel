@@ -27,6 +27,7 @@ use UnexpectedValueException,
     Sirel\Node\Using,
     Sirel\Node\Offset,
     Sirel\Node\Limit,
+    Sirel\Node\Distinct,
     Sirel\Visitor\Visitor,
     Sirel\Visitor\ToSql,
     Sirel\Attribute\Attribute;
