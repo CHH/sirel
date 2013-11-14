@@ -30,7 +30,7 @@ class DoctrinePlatform extends ToSql
             "SET " . join(', ', $this->visitEach($update->values)),
 
             // WHERE
-            ($update->restrictions 
+            ($update->restrictions
                 ? "WHERE " . join(" AND ", $this->visitEach($update->restrictions))
                 : null
             ),
@@ -41,7 +41,7 @@ class DoctrinePlatform extends ToSql
                 : null)
         )));
 
-        $query = $this->platform->modifyLimitQuery($query, $update->limit->getExpression(), $update->order->getExpression());
+        $query = $this->platform->modifyLimitQuery($query, $update->limit->getExpression(), $update->offset->getExpression());
         $query .= ';';
 
         return $query;

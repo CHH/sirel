@@ -30,7 +30,7 @@ abstract class AbstractManager implements Manager
             $this->visitor = clone $this->visitor;
         }
     }
-    
+
     function getNodes()
     {
         return $this->nodes;

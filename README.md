@@ -235,6 +235,16 @@ echo $users->skip(4);
 // -> SELECT * FROM users OFFSET 4
 ```
 
+## Distinct
+
+The 'distinct' operatator is used for `SELECT DISTINCT` queries:
+
+```php
+<?php
+echo $users->project($users['id'])->distinct();
+// -> SELECT DISTINCT id FROM users;
+```
+
 ## Chaining
 
 The greatest benefit of using a Query Builder is the composability of queries. Therefore

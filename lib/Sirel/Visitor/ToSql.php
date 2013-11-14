@@ -46,6 +46,8 @@ class ToSql extends AbstractVisitor
         return join(" ", array_filter(array(
             "SELECT",
 
+            ($select->distinct ? $this->visit($select->distinct) : null),
+
             ($select->projections
                 ? join(", ", $this->visitEach($select->projections))
                 : '*'),
@@ -186,6 +188,17 @@ class ToSql extends AbstractVisitor
     protected function visitSirelNodeOffset(Node\Offset $offset)
     {
         return "OFFSET " . $this->visit($offset->getExpression());
+    }
+
+    /**
+     * Creates a DISTINCT Clause
+     *
+     * @param  Node\Offset $offset
+     * @return string
+     */
+    protected function visitSirelNodeDistinct(Node\Distinct $distinct)
+    {
+        return "DISTINCT";
     }
 
     /**
