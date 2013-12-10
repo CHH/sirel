@@ -193,7 +193,7 @@ Use `reorder` to clear all current order operations:
 
 $select = $users->order($users->username->asc())->order($users->id->asc());
 
-// Not let's reorder:
+// Now let's reorder:
 echo $select->reorder($users->id->desc());
 // -> SELECT * FROM users ORDER BY users.id DESC;
 ```
