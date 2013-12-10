@@ -220,6 +220,16 @@ class Table implements \ArrayAccess
     }
 
     /**
+     * Create a new Select Manager with a Distinct keyword.
+     *
+     * @return SelectManager
+     */
+    function distinct()
+    {
+        return $this->from()->distinct();
+    }
+
+    /**
      * Predefine an Attribute with the given Instance
      *
      * @param  Attribute $attribute

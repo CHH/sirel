@@ -46,6 +46,8 @@ class ToSql extends AbstractVisitor
         return join(" ", array_filter(array(
             "SELECT",
 
+            ($select->distinct ? "DISTINCT" : null),
+
             ($select->projections
                 ? join(", ", $this->visitEach($select->projections))
                 : '*'),

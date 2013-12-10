@@ -61,6 +61,14 @@ class TableTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($sqlString, $select->toSql());
     }
 
+    function testDistinct()
+    {
+        $query = $this->users->distinct();
+
+        $sqlString = "SELECT DISTINCT * FROM users;";
+        $this->assertEquals($sqlString, $query->toSql());
+    }
+
     function testOffset()
     {
         $query = $this->users->skip(10);
