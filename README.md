@@ -237,7 +237,7 @@ echo $users->skip(4);
 
 ## Distinct
 
-The 'distinct' operatator is used for `SELECT DISTINCT` queries:
+The 'distinct' operator is used for `SELECT DISTINCT` queries:
 
 ```php
 <?php
