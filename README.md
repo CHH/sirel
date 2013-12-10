@@ -1,4 +1,4 @@
-Sirel -- A Simple Relational Algebra for PHP
+Sirel — A Simple Relational Algebra for PHP
 ============================================
 
 Sirel is a representation of the SQL Abstract Syntax Tree in PHP. 
