@@ -116,7 +116,7 @@ trait Selections
      */
     function distinct()
     {
-        $this->getNodes()->distinct = new Distinct();
+        $this->getNodes()->distinct = true;
         return $this;
     }
 }

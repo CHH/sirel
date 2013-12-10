@@ -37,9 +37,9 @@ class SelectStatement extends AbstractNode
     public $offset;
 
     /**
-     * @var Distinct
+     * @var bool
      */
-    public $distinct;
+    public $distinct = false;
 
     function __clone()
     {
@@ -61,10 +61,6 @@ class SelectStatement extends AbstractNode
 
         if (null !== $this->offset) {
             $this->offset = clone $this->offset;
-        }
-
-        if (null !== $this->distinct) {
-            $this->distinct = clone $this->distinct;
         }
     }
 }
