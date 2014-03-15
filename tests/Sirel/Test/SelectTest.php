@@ -112,7 +112,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select->on($profiles['user_id']->eq($users['id']));
 
         $this->assertEquals(
-            "SELECT * FROM users INNER JOIN profiles" 
+            "SELECT * FROM users INNER JOIN profiles"
             . " ON profiles.user_id = users.id;",
             $select->toSql()
         );
@@ -126,7 +126,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select = $users->project(Sirel::star())
             ->join($profiles)->on($users['id']->eq($profiles['user_id']));
 
-        $sqlString = "SELECT * FROM users INNER JOIN profiles" 
+        $sqlString = "SELECT * FROM users INNER JOIN profiles"
             . " ON users.id = profiles.user_id;";
 
         $this->assertEquals($sqlString, $select->toSql());
@@ -148,7 +148,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select = $users->project(Sirel::star())
             ->innerJoin($profiles)->natural();
 
-        $sqlString = "SELECT * FROM users NATURAL INNER JOIN profiles;"; 
+        $sqlString = "SELECT * FROM users NATURAL INNER JOIN profiles;";
 
         $this->assertEquals($sqlString, $select->toSql());
     }
@@ -217,6 +217,26 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $select->reorder($users->id->desc());
 
         $sqlString = "SELECT * FROM users ORDER BY users.id DESC;";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
+
+    function testCount()
+    {
+        $users = $u = $this->users;
+
+        $select = $users->project($u->id->count());
+        $sqlString = "SELECT COUNT(users.id) FROM users;";
+
+        $this->assertEquals($sqlString, $select->toSql());
+    }
+
+    function testSum()
+    {
+        $users = $u = $this->users;
+
+        $select = $users->project($u->pets->sum());
+        $sqlString = "SELECT SUM(users.pets) FROM users;";
 
         $this->assertEquals($sqlString, $select->toSql());
     }
